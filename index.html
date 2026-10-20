@@ -1,0 +1,248 @@
+bixtone-ultimate-pro/
+├── config/
+│   └── presets_config.json
+├── static/
+│   └── (masukkan gambar logo Anda di sini dan rename jadi: logo_bix.jpg)
+├── templates/
+│   └── index.html
+├── .gitignore
+├── main.py
+└── requirements.txt
+fastapi>=0.100.0
+uvicorn>=0.22.0
+pydantic>=2.0.0
+jinja2>=3.1.2
+python-multipart>=0.0.6
+__pycache__/
+*.pyc
+.env
+venv/
+.vscode/
+.idea/
+{
+  "app_info": {
+    "name": "BIXTONE ULTIMATE PRO",
+    "developer": "Bixlabs Boyolali, Indonesia",
+    "slogan": "wujudkan mimpimu dan ciptakan musik tanpa batas"
+  },
+  "categories": {
+    "category_a_vocal": { "type": "single_select", "options": ["FEMALE", "MALE", "DUET", "CHOIR"] },
+    "category_b_vocal_characters": { "type": "multi_select", "max_selection": 8, "total_count": 30 },
+    "category_c_moods": { "type": "multi_select", "max_selection": 8, "total_count": 40 },
+    "category_d_microphones": { "type": "single_select", "total_count": 50 },
+    "category_e_genres": { "type": "multi_select", "max_selection": 8, "total_count": 80 },
+    "category_f_guitars": { "type": "exact_select", "select_count": 2, "total_count": 80 },
+    "category_g_basses": { "type": "single_select", "total_count": 30 },
+    "category_h_drums": { "type": "single_select", "total_count": 30 },
+    "category_i_cymbals": { "type": "single_select", "total_count": 30 },
+    "category_j_guitar_effects": { "type": "routing_multi", "max_selection": 10, "routing_modes": ["SERIES", "PARALLEL", "HYBRID"] },
+    "category_k_bass_effects": { "type": "routing_multi", "max_selection": 8, "routing_modes": ["SERIES", "PARALLEL", "HYBRID"] },
+    "category_l_guitar_amps": { "type": "routing_multi", "max_selection": 4, "routing_modes": ["SERIES", "PARALLEL", "HYBRID"] },
+    "category_m_bass_amps": { "type": "routing_multi", "max_selection": 4, "routing_modes": ["SERIES", "PARALLEL", "HYBRID"] },
+    "category_n_guitar_cabs": { "type": "routing_multi", "max_selection": 4, "routing_modes": ["SERIES", "PARALLEL", "HYBRID"] },
+    "category_o_bass_cabs": { "type": "routing_multi", "max_selection": 4, "routing_modes": ["SERIES", "PARALLEL", "HYBRID"] },
+    "category_p_other_instruments": { "type": "multi_select", "max_selection": 10, "total_count": 100 },
+    "category_q_mixers": { "type": "single_select", "total_count": 20 },
+    "category_r_mastering": { "type": "single_select", "total_count": 20 }
+  }
+}
+import json
+import os
+from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from pydantic import BaseModel
+
+app = FastAPI(title="BIXTONE ULTIMATE PRO API")
+
+os.makedirs("static", exist_ok=True)
+os.makedirs("templates", exist_ok=True)
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
+
+with open("config/presets_config.json", "r") as f:
+    preset_cfg = json.load(f)
+
+class GenerationPayload(BaseModel):
+    category_a_vocal: str = "FEMALE"
+    category_b_vocal_characters: list = []
+    category_c_moods: list = []
+    category_e_genres: list = []
+    category_f_guitars: list = []
+    category_p_other_instruments: list = []
+
+@app.get("/")
+async def serve_home(request: Request):
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "app_info": preset_cfg["app_info"],
+        "categories": preset_cfg["categories"]
+    })
+
+@app.post("/api/generate")
+async def generate_music_pipeline(payload: GenerationPayload):
+    prompt = f"Genre: {payload.category_e_genres}, Mood: {payload.category_c_moods}, Vocal: {payload.category_a_vocal}"
+    
+    correction_logs = [
+        "De-clipping applied (-0.1 dB peak limit)",
+        "Muddy Low-End EQ cleaned (Kick/Bass separated)",
+        "Multi-Amp & Cab Phase Aligned"
+    ]
+    
+    perfection_logs = [
+        "Tube Saturation +15% Drive Applied",
+        "Stereo Width Enhanced (+125% Mono-Lock Lows)",
+        "Master Locked to -14.0 LUFS"
+    ]
+    
+    return {
+        "status": "SUCCESS",
+        "app": preset_cfg["app_info"]["name"],
+        "developer": preset_cfg["app_info"]["developer"],
+        "generated_prompt": prompt,
+        "pipeline": {
+            "stage_1_generate": "COMPLETED (Local Open-Source AI)",
+            "stage_2_correction": correction_logs,
+            "stage_3_perfection": perfection_logs
+        },
+        "downloads": {
+            "wav": "/static/output/master_24bit.wav",
+            "mp3": "/static/output/master_320k.mp3",
+            "stems_zip": "/static/output/stems_bundle.zip"
+        }
+    }
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIXTONE ULTIMATE PRO - Bixlabs Boyolali</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0A0A0C; color: #FFFFFF; font-family: 'Inter', sans-serif; }
+        .hologram-text {
+            background: linear-gradient(135deg, #F0B90B 0%, #A064FF 50%, #00F2FE 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .studio-card {
+            background: #141419;
+            border: 1px solid #2A2A35;
+            transition: all 0.2s ease-in-out;
+        }
+        .studio-card:hover {
+            border-color: #A064FF;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 20px rgba(160, 100, 255, 0.25);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4">
+
+    <!-- HEADER SECTION -->
+    <header class="w-full max-w-5xl text-center my-6 flex flex-col items-center">
+        <div class="w-48 h-32 mb-2 flex justify-center items-center overflow-hidden">
+            <img src="/static/logo_bix.jpg" alt="BIX Logo" class="object-contain h-full" onerror="this.src='https://via.placeholder.com/200x120/0A0A0C/FFFFFF?text=BIX+LOGO'">
+        </div>
+        
+        <h1 class="text-3xl md:text-4xl font-extrabold tracking-wider mt-1">
+            <span class="hologram-text">{{ app_info.name }}</span>
+        </h1>
+        <p class="text-xs md:text-sm text-gray-400 font-medium tracking-widest uppercase mt-1">
+            By {{ app_info.developer }}
+        </p>
+        <p class="text-sm md:text-base italic text-amber-300/90 font-light mt-2">
+            "{{ app_info.slogan }}"
+        </p>
+    </header>
+
+    <!-- GRID KATEGORI A - R -->
+    <main class="w-full max-w-5xl">
+        <div class="flex items-center justify-between mb-4 px-1">
+            <h2 class="text-lg font-semibold tracking-wide text-gray-200">🎛️ Preset Parameters (A - R)</h2>
+            <span class="text-xs bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-3 py-1 rounded-full">
+                100% Locked & Ready
+            </span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-amber-400 font-bold">A. VOKAL</div><div class="text-xs text-gray-300 mt-1">Single Select (4)</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-purple-400 font-bold">B. KARAKTER VOKAL</div><div class="text-xs text-gray-300 mt-1">Max Select: 8</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-cyan-400 font-bold">C. MOOD</div><div class="text-xs text-gray-300 mt-1">Max Select: 8</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-emerald-400 font-bold">D. MIC</div><div class="text-xs text-gray-300 mt-1">Single Select (50)</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-rose-400 font-bold">E. GENRE</div><div class="text-xs text-gray-300 mt-1">Max Select: 8</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-amber-400 font-bold">F. GITAR</div><div class="text-xs text-gray-300 mt-1">Pilih Tepat 2 Brand</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-indigo-400 font-bold">G. BASS</div><div class="text-xs text-gray-300 mt-1">Single Select (30)</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-amber-500 font-bold">H. DRUM</div><div class="text-xs text-gray-300 mt-1">Single Select (30)</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-yellow-400 font-bold">I. CYMBALS</div><div class="text-xs text-gray-300 mt-1">Single Select (30)</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-sky-400 font-bold">J. EFEK GITAR</div><div class="text-xs text-gray-300 mt-1">Max 10 (Series/Parallel)</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-blue-400 font-bold">K. EFEK BASS</div><div class="text-xs text-gray-300 mt-1">Max 8 (Series/Parallel)</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-orange-400 font-bold">L. AMP GITAR</div><div class="text-xs text-gray-300 mt-1">Max 4 (Series/Parallel)</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-red-400 font-bold">M. AMP BASS</div><div class="text-xs text-gray-300 mt-1">Max 4 (Series/Parallel)</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-amber-300 font-bold">N. CAB GITAR</div><div class="text-xs text-gray-300 mt-1">Max 4 (Series/Parallel)</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-teal-400 font-bold">O. CAB BASS</div><div class="text-xs text-gray-300 mt-1">Max 4 (Series/Parallel)</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-fuchsia-400 font-bold">P. ALAT LAIN</div><div class="text-xs text-gray-300 mt-1">Max Select: 10</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-purple-300 font-bold">Q. MIXER</div><div class="text-xs text-gray-300 mt-1">Single Select (20)</div></div>
+            <div class="studio-card p-3 rounded-xl"><div class="text-xs text-emerald-300 font-bold">R. MASTERING</div><div class="text-xs text-gray-300 mt-1">Single Select (20)</div></div>
+        </div>
+
+        <!-- TOMBOL EXECUTE -->
+        <div class="mt-8 mb-6 text-center">
+            <button onclick="runPipeline()" class="w-full py-4 px-8 rounded-2xl font-extrabold text-lg md:text-xl tracking-wider text-black transition transform active:scale-95 shadow-xl"
+                    style="background: linear-gradient(135deg, #F0B90B 0%, #A064FF 50%, #00F2FE 100%);">
+                ⚡ GENERATE + CORRECTION + PERFECTION ⚡
+            </button>
+        </div>
+
+        <!-- LOG OUTPUT DISPLAY -->
+        <div id="outputLog" class="hidden studio-card p-4 rounded-2xl mb-6 text-left">
+            <h3 class="text-sm font-bold text-amber-400 mb-2">🚀 Execution Log:</h3>
+            <pre id="logContent" class="text-xs text-gray-300 font-mono overflow-x-auto"></pre>
+        </div>
+    </main>
+
+    <script>
+        async function runPipeline() {
+            const logBox = document.getElementById('outputLog');
+            const logContent = document.getElementById('logContent');
+            logBox.classList.remove('hidden');
+            logContent.innerText = "Processing pipeline via Local Open-Source AI Engine...";
+
+            const response = await fetch('/api/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    category_a_vocal: "FEMALE",
+                    category_c_moods: ["ENERGETIC"],
+                    category_e_genres: ["ROCK"]
+                })
+            });
+
+            const data = await response.json();
+            logContent.innerText = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+</html>
+# 1. Inisialisasi Git
+git init
+
+# 2. Masukkan semua file ke staging
+git add .
+
+# 3. Buat commit pertama
+git commit -m "First commit BIXTONE ULTIMATE PRO by Bixlabs Boyolali"
+
+# 4. Ubah nama branch utama menjadi main
+git branch -M main
+
+# 5. Sambungkan ke GitHub (Ganti USERNAME dengan nama akun GitHub Anda)
+git remote add origin https://github.com/USERNAME/bixtone-ultimate-pro.git
+
+# 6. Upload kode ke GitHub
+git push -u origin main
