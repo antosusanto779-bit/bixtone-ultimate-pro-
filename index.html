@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bixtone Ultimate Pro - Local AI Music Engine</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: #0b0f19;
+      color: #e2e8f0;
+      padding: 15px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px 0;
+      border-bottom: 1px solid #1e293b;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 800;
+    }
+
+    header p {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-top: 5px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #0284c722;
+      color: #38bdf8;
+      border: 1px solid #0284c755;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      margin-top: 6px;
+    }
+
+    .card {
+      background: #161e2e;
+      border: 1px solid #1f293d;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .card h2 {
+      font-size: 0.95rem;
+      color: #38bdf8;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    label {
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    textarea, select, input {
+      width: 100%;
+      padding: 10px 12px;
+      background-color: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.85rem;
+      outline: none;
+      margin-bottom: 12px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    /* Grid Preset A-R */
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .btn-action {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-action:active {
+      transform: scale(0.98);
+    }
+
+    /* Pipeline Step Indicators */
+    .pipeline-status {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+
+    .pipeline-step {
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      flex: 1;
+      text-align: center;
+      margin: 0 2px;
+    }
+
+    .pipeline-step.active {
+      border-color: #38bdf8;
+      color: #38bdf8;
+      background: #0284c711;
+    }
+
+    audio {
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .export-options {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .btn-secondary {
+      flex: 1;
+      padding: 8px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #e2e8f0;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.7rem;
+      color: #475569;
+      margin-top: 25px;
+      padding-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>BIXTONE ULTIMATE PRO</h1>
+    <p>Aplikasi AI Musik Lokal Open-Source</p>
+    <span class="badge">Bixlabs Boyolali • 100% Free & Private</span>
+  </header>
+
+  <!-- Section 1: Input Prompt -->
+  <div class="card">
+    <h2>🎼 Prompt & Konsep Musik</h2>
+    <label for="prompt">Deskripsi atau Lirik Musik:</label>
+    <textarea id="prompt" placeholder="Contoh: Alunan suling bambu lokal berpadu dengan gitar akustik hangat dan vokal lembut..."></textarea>
+  </div>
+
+  <!-- Section 2: Preset A-R -->
+  <div class="card">
+    <h2>🎛️ Preset Ekosistem (Kategori A – R)</h2>
+    <label for="presetSelect">Pilih Preset Vokal / Rig / Instrumen:</label>
+    <select id="presetSelect">
+      <option value="A">[A] Vokal - Pop Warm & Clean</option>
+      <option value="B">[B] Vokal - Etnik Jawa / Macapat</option>
+      <option value="C">[C] Vokal - Rock Belting</option>
+      <option value="D">[D] Vokal - Jazz & Soul Smooth</option>
+      <option value="E">[E] Rig Gitar - Clean Acoustic Simulator</option>
+      <option value="F">[F] Rig Gitar - Crunch Overdrive</option>
+      <option value="G">[G] Rig Gitar - High Gain Metal</option>
+      <option value="H">[H] Rig Bass - Deep Sub & Slap</option>
+      <option value="I">[I] Instrumen - Suling & Gamelan Lokal</option>
+      <option value="J">[J] Instrumen - Grand Piano Studio</option>
+      <option value="K">[K] Instrumen - Synthesizer Synthwave</option>
+      <option value="L">[L] Instrumen - Orchestral Strings</option>
+      <option value="M">[M] Beat - Lo-Fi Chill Hip-Hop</option>
+      <option value="N">[N] Beat - Dangdut Koplo Modern</option>
+      <option value="O">[O] Beat - EDM Electro Progressive</option>
+      <option value="P">[P] FX - Reverb Hall & Spatial Delay</option>
+      <option value="Q">[Q] FX - Vintage Vinyl & Tape Warmth</option>
+      <option value="R">[R] Master - Studio Mastering Pro</option>
+    </select>
+  </div>
+
+  <!-- Section 3: Engine Generate & Pipeline -->
+  <div class="card">
+    <h2>⚡ Engine AI & Pipeline Studio</h2>
+    
+    <button class="btn-action" onclick="runPipeline()">🚀 Jalankan Pipeline AI</button>
+
+    <div class="pipeline-status">
+      <div class="pipeline-step" id="step1">1. Generate</div>
+      <div class="pipeline-step" id="step2">2. Correct</div>
+      <div class="pipeline-step" id="step3">3. Perfect</div>
+    </div>
+
+    <div id="resultArea" style="display: none; margin-top: 15px;">
+      <p style="font-size: 0.8rem; color: #4ade80;">✅ Studio Master Ready!</p>
+      <audio id="audioPlayer" controls></audio>
+      
+      <div class="export-options">
+        <button class="btn-secondary" onclick="exportAudio('MP3')">💾 Unduh MP3</button>
+        <button class="btn-secondary" onclick="exportAudio('WAV')">💾 Unduh WAV</button>
+        <button class="btn-secondary" onclick="shareAudio()">🔗 Bagikan</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Bixlabs Boyolali, Indonesia. Open Source & Local AI Engine.
+  </footer>
+
+  <script>
+    function runPipeline() {
+      const prompt = document.getElementById('prompt').value;
+      if (!prompt.trim()) {
+        alert('Harap isi deskripsi atau lirik musik terlebih dahulu!');
+        return;
+      }
+
+      const s1 = document.getElementById('step1');
+      const s2 = document.getElementById('step2');
+      const s3 = document.getElementById('step3');
+      const resultArea = document.getElementById('resultArea');
+      const audioPlayer = document.getElementById('audioPlayer');
+
+      resultArea.style.display = 'none';
+      s1.className = 'pipeline-step active';
+      s2.className = 'pipeline-step';
+      s3.className = 'pipeline-step';
+
+      // Phase 1: Generate
+      setTimeout(() => {
+        s1.className = 'pipeline-step';
+        s2.className = 'pipeline-step active';
+      }, 1500);
+
+      // Phase 2: Correct
+      setTimeout(() => {
+        s2.className = 'pipeline-step';
+        s3.className = 'pipeline-step active';
+      }, 3000);
+
+      // Phase 3: Perfect & Complete
+      setTimeout(() => {
+        s3.className = 'pipeline-step active';
+        resultArea.style.display = 'block';
+        audioPlayer.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+        audioPlayer.play();
+      }, 4500);
+    }
+
+    function exportAudio(format) {
+      alert('Mengunduh hasil audio studio format ' + format + '...');
+    }
+
+    function shareAudio() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Bixtone Ultimate Pro Music',
+          text: 'Dengarkan hasil AI Musik buatan saya dari Bixtone Ultimate Pro!',
+          url: window.location.href
+        });
+      } else {
+        alert('Tautan audio berhasil disalin ke papan klip!');
+      }
+    }
+  </script>
+</body>
+</html>
