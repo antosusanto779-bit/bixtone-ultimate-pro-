@@ -1,0 +1,12 @@
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('/api/health', (req,res)=>res.json({status:'BIXTONE V6 ULTIMATE PRO OK', version:'6.0.0', author:'Bixlabs Boyolali - 150 World Instruments', theme:'Black-Blue-Silver-Gold'}));
+app.get('*', (req,res)=>res.sendFile(path.join(__dirname, 'public', 'index.html')));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, ()=>console.log('BIXTONE V6 running '+PORT));
+module.exports = app;
