@@ -49,3 +49,8 @@ Seluruh pilihan perangkat, merek, amplifier, kabinet, mikrofon, dan prosesor mas
 
 ---
 *Dikembangkan oleh Bixlabs Boyolali Indonesia.*
+---
+
+## ⚖️ Penyangkalan Merek Dagang & Disclaimer Hukum
+> *Semua nama produk, merek dagang, logo, merek terdaftar, serta perangkat keras dan perangkat lunak audio profesional (seperti Marshall, Shure, Neumann, SSL, Neve, dll.) yang disebutkan dalam aplikasi **BIXTONE ULTIMATE PRO** sepenuhnya adalah milik dari masing-masing pemilik hak ciptanya. Penggunaan nama-nama tersebut di dalam aplikasi ini murni digunakan sebagai referensi deskriptif, panduan gaya sonik, dan inspirasi preset audio ("inspired by / style compatibility") untuk sistem generator AI. Bixlabs Boyolali Indonesia tidak berafiliasi, didukung, atau disponsori secara resmi oleh merek-merek tersebut.*
+> 
