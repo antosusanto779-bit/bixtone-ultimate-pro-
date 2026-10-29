@@ -1,0 +1,204 @@
+/* ==========================================
+   BIXTONE ULTIMATE PRO - STYLE.CSS
+   Palet Warna: Hitam, Biru Electric, Silver, & Perak
+   ========================================== */
+
+body {
+    background-color: #080a0f; /* Hitam pekat nuansa studio malam */
+    color: #e2e8f0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 15px;
+}
+
+.app-container {
+    max-width: 600px;
+    margin: auto;
+}
+
+/* Header & Logo Styling */
+.app-header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: linear-gradient(135deg, #111827 0%, #0f172a 100%);
+    border: 1px solid #334155;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 191, 255, 0.15);
+}
+
+.logo-container {
+    margin-bottom: 15px;
+}
+
+.app-logo {
+    width: 140px;
+    height: auto;
+    border-radius: 10px;
+    border: 1px solid #38bdf8;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+}
+
+.app-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #ffffff, #94a3b8, #38bdf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 5px 0;
+    letter-spacing: 1px;
+}
+
+.app-subtitle {
+    font-size: 0.85rem;
+    color: #38bdf8; /* Biru electric */
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.slogan {
+    font-size: 0.9rem;
+    color: #cbd5e1; /* Silver cerah */
+    font-style: italic;
+    margin: 0;
+}
+
+/* Kartu Seksi Studio */
+.section-card {
+    background: linear-gradient(145deg, #111318, #1a1f2c);
+    border: 1px solid #2a3447;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.section-card h3 {
+    margin-top: 0;
+    font-size: 1rem;
+    color: #38bdf8;
+    border-bottom: 1px solid #2a3447;
+    padding-bottom: 8px;
+}
+
+label {
+    display: block;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-top: 8px;
+}
+
+select, input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    background: #0f141d;
+    border: 1px solid #334155;
+    color: #f1f5f9;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+}
+
+select:focus, input[type="text"]:focus {
+    border-color: #38bdf8;
+    outline: none;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+}
+
+/* Tombol Generate Utama dengan Gradasi Silver-Biru */
+.btn-generate {
+    width: 100%;
+    background: linear-gradient(135deg, #38bdf8 0%, #1e40af 100%);
+    color: #ffffff;
+    font-weight: bold;
+    padding: 14px;
+    border: 1px solid #94a3b8;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 4px 15px rgba(30, 64, 175, 0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-generate:hover {
+    background: linear-gradient(135deg, #7dd3fc, #1d4ed8);
+    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.6);
+}
+
+.status-text {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Kotak Pemutar Musik (Y) */
+.player-box {
+    background: linear-gradient(145deg, #0f141d, #161e2e);
+    border: 1px solid #38bdf8;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+}
+
+.player-box h3 {
+    color: #38bdf8;
+    margin-top: 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+    filter: invert(90%) hue-rotate(180deg);
+}
+
+/* Tombol Perkakas Tambahan (T, U, V, W, X) */
+.tool-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.tool-buttons button {
+    background: #1e293b;
+    color: #f1f5f9;
+    border: 1px solid #475569;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.tool-buttons button:hover {
+    background: #334155;
+    border-color: #38bdf8;
+}
+
+/* Daftar Pustaka (Z) */
+.library-footer {
+    margin-top: 30px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    background: #0f1218;
+    border: 1px solid #1e293b;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+summary {
+    color: #cbd5e1;
+    cursor: pointer;
+}
