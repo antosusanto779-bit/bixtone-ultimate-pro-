@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIXTONE ULTIMATE PRO</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Logo & Identitas Studio -->
+        <header class="app-header">
+            <div class="logo-container">
+                <img src="1000119511.png" alt="BIXTONE Logo" class="app-logo">
+            </div>
+            <h1 class="app-title">BIXTONE ULTIMATE PRO</h1>
+            <p class="app-subtitle">Music AI Generator by Bixlabs Boyolali Indonesia</p>
+            <p class="slogan">"Wujudkan mimpimu dan ciptakan musik tanpa batas"</p>
+        </header>
+
+        <!-- (A) Jenis Generate & Opsi Lirik -->
+        <div class="section-card">
+            <h3>Konfigurasi Utama (A)</h3>
+            <label>Mode Generasi Lagu</label>
+            <select id="genType"></select>
+        </div>
+
+        <!-- Layer 1: Vokal & Performance (B, C, D, F) -->
+        <div class="section-card">
+            <h3>Layer 1: Vokal & Performance</h3>
+            <label>Tipe Vokal</label>
+            <select id="vocalType"></select>
+            
+            <label>Karakter Vokal (Max 8)</label>
+            <select id="vocalChar"></select>
+            
+            <label>Mood / Suasana Lagu (Max 8)</label>
+            <select id="mood"></select>
+            
+            <label>Microphone & Style Inspiration</label>
+            <select id="mic"></select>
+        </div>
+
+        <!-- Layer 2: Instrumentasi & Gear Chain (E, G, H, I, J, K, L, O, P, Q) -->
+        <div class="section-card">
+            <h3>Layer 2: Instrumentasi & Gear Chain</h3>
+            <label>Genre Musik (Max 8)</label>
+            <select id="genre"></select>
+            
+            <label>Gitar (Elektrik & Akustik)</label>
+            <select id="guitars"></select>
+            
+            <label>Amplifier & Series (Max 4)</label>
+            <select id="amp"></select>
+            
+            <label>Cabinet & Series (Max 4)</label>
+            <select id="cab"></select>
+            
+            <label>Bass & Style</label>
+            <select id="bass"></select>
+            
+            <label>Drum & Cymbals</label>
+            <select id="drums"></select>
+            <select id="cymbals"></select>
+            
+            <label>Efek Gitar & Bass</label>
+            <select id="effects"></select>
+
+            <label>Alat Musik Dunia / Etnik</label>
+            <select id="worldInst"></select>
+        </div>
+
+        <!-- Layer 3: Studio Mixer & Mastering (M, N) -->
+        <div class="section-card">
+            <h3>Layer 3: Studio Mixer & Mastering</h3>
+            <label>Mixer & Console Style</label>
+            <select id="mixer"></select>
+            
+            <label>Mastering Processor Style</label>
+            <select id="mastering"></select>
+        </div>
+
+        <!-- Tombol Generate Utama (R) -->
+        <button class="btn-generate" onclick="startGeneration()">GENERATE 3 LAGU (Variatif, Balance, Wild)</button>
+        <div id="resultStatus" class="status-text"></div>
+
+        <!-- Pemutar Musik (Y) & Perkakas Tambahan (T, U, V, W, X) -->
+        <div id="playerSection" class="player-box hidden">
+            <h3>Pemutar Musik BIXTONE (Y)</h3>
+            <audio id="audioPlayer" controls></audio>
+            
+            <div class="tool-buttons">
+                <button onclick="correctionPerfection()">Correction & Perfection (T)</button>
+                <button onclick="removeAndGenerate()">Remove + Generate (U)</button>
+                <button onclick="remakeRecordGenerate()">Remake + Record + Generate (V)</button>
+                <button onclick="downloadMusic()">Download Semua Format (W)</button>
+                <button onclick="sharePlatform()">Share WhatsApp/Platform (X)</button>
+            </div>
+        </div>
+
+        <!-- Daftar Pustaka (Z) -->
+        <footer class="library-footer">
+            <details>
+                <summary><b>Daftar Pustaka & Referensi Preset (Z)</b></summary>
+                <p>Seluruh spesifikasi merk Amp, Cab, Gitar, Mic, dan Efek disesuaikan berdasarkan standar industri audio profesional dan katalog perangkat musik dunia.</p>
+            </details>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
