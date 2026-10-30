@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BIXTONE ULTIMATE PRO - AI Music Architecture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&display=swap');
+        
+        :root {
+            --bg-dark: #0a0d14;
+            --card-bg: #121824;
+            --border-color: #1e293b;
+            --gold: #e5a93c;
+            --cyan: #00f2fe;
+            --neon-green: #00ff88;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #e2e8f0;
+            font-family: 'Rajdhani', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #0a0d14; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--cyan); }
+
+        .cyber-card {
+            background: rgba(18, 24, 36, 0.85);
+            border: 1px solid rgba(0, 242, 254, 0.15);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+        }
+
+        .cyber-input {
+            background: #0d121d;
+            border: 1px solid #1e293b;
+            color: #38bdf8;
+            transition: all 0.2s ease;
+        }
+        .cyber-input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+            outline: none;
+        }
+
+        .checkbox-card {
+            background: #0d121d;
+            border: 1px solid #1e293b;
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+        .checkbox-card:hover { border-color: rgba(0, 242, 254, 0.4); }
+        .checkbox-card.selected {
+            background: rgba(0, 242, 254, 0.1);
+            border-color: var(--cyan);
+            color: #ffffff;
+        }
+
+        .tab-btn {
+            background: #0d121d;
+            border: 1px solid #1e293b;
+            color: #94a3b8;
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            background: var(--cyan);
+            color: #000000;
+            font-weight: bold;
+            border-color: var(--cyan);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+        }
+
+        .preset-btn {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            transition: all 0.2s;
+        }
+        .preset-btn:hover {
+            background: var(--gold);
+            color: #000;
+            box-shadow: 0 0 12px rgba(229, 169, 60, 0.5);
+        }
+
+        .pulse-glow {
+            animation: pulseGlow 2s infinite alternate;
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 5px rgba(0, 255, 136, 0.2); }
+            100% { box-shadow: 0 0 15px rgba(0, 255, 136, 0.6); }
+        }
+    </style>
+</head>
+<body class="pb-24">
+
+    <!-- HEADER SYSTEM -->
+    <header class="sticky top-0 z-50 bg-[#0a0d14]/90 backdrop-blur-md border-b border-cyan-900/40 px-4 py-3">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full border-2 border-amber-500 flex items-center justify-center bg-black/60 shadow-[0_0_10px_rgba(229,169,60,0.4)]">
+                    <span class="font-orbitron font-black text-amber-500 text-xs tracking-tighter">BIX</span>
+                </div>
+                <div>
+                    <h1 class="font-orbitron font-extrabold text-amber-400 text-base md:text-xl tracking-wider leading-none">
+                        BIXTONE <span class="text-white">ULTIMATE PRO</span>
+                    </h1>
+                    <p class="text-[10px] text-cyan-400/80 tracking-widest font-mono">BY AUDIOLABS BOYOLALI INDONESIA</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <div class="px-2.5 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/50 flex items-center space-x-1.5 pulse-glow">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span class="text-[10px] font-mono font-bold text-emerald-400 uppercase">ENGINE v3.4 ONLINE</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-3 py-4 space-y-6">
+
+        <!-- QUICK PRESETS BAR -->
+        <section class="cyber-card rounded-xl p-3 border-amber-500/30">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-orbitron font-bold text-amber-400 uppercase tracking-wider">
+                    <i class="fa-solid fa-bolt mr-1"></i> Quick Template Presets
+                </span>
+                <span class="text-[10px] text-slate-400">1-Klik Konfigurasi Otomatis</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                <button onclick="applyQuickPreset('rock')" class="preset-btn py-1.5 px-2 rounded text-xs font-bold font-orbitron text-center">Rock Studio</button>
+                <button onclick="applyQuickPreset('dangdut')" class="preset-btn py-1.5 px-2 rounded text-xs font-bold font-orbitron text-center">Dangdut Modern</button>
+                <button onclick="applyQuickPreset('worship')" class="preset-btn py-1.5 px-2 rounded text-xs font-bold font-orbitron text-center">Acoustic Worship</button>
+                <button onclick="applyQuickPreset('metalcore')" class="preset-btn py-1.5 px-2 rounded text-xs font-bold font-orbitron text-center">Metalcore</button>
+                <button onclick="applyQuickPreset('indie')" class="preset-btn py-1.5 px-2 rounded text-xs font-bold font-orbitron text-center">Indie Pop</button>
+            </div>
+        </section>
+
+        <!-- PRESET MANAGER (LOCAL STORAGE) -->
+        <section class="cyber-card rounded-xl p-3 border-slate-700">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-2">
+                <div class="flex items-center space-x-2 w-full sm:w-auto">
+                    <i class="fa-solid fa-floppy-disk text-cyan-400 text-sm"></i>
+                    <span class="text-xs font-orbitron text-cyan-300 uppercase font-semibold">Preset Profile Manager:</span>
+                </div>
+                <div class="flex items-center space-x-2 w-full sm:w-auto">
+                    <input type="text" id="presetNameInput" placeholder="Nama Preset Saya..." class="cyber-input text-xs px-2 py-1 rounded w-full sm:w-48">
+                    <button onclick="saveCustomPreset()" class="bg-cyan-600 hover:bg-cyan-500 text-black font-bold text-xs px-3 py-1 rounded font-orbitron transition">Save</button>
+                    <select id="savedPresetsDropdown" onchange="loadCustomPreset(this.value)" class="cyber-input text-xs px-2 py-1 rounded bg-slate-900">
+                        <option value="">-- Load Preset --</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION A: MODE LAGU & LIRIK -->
+        <section class="cyber-card rounded-xl p-4">
+            <div class="flex items-center justify-between mb-3 border-b border-cyan-900/50 pb-2">
+                <h2 class="font-orbitron text-sm md:text-base font-bold text-cyan-400 uppercase tracking-wide">
+                    (A) MODE LAGU & LIRIK STUDIO
+                </h2>
+                <i class="fa-solid fa-sliders text-cyan-400"></i>
+            </div>
+            <div class="space-y-3">
+                <div class="grid grid-cols-2 gap-3">
+                    <button id="btnFullSong" onclick="setSongMode('full')" class="p-3 rounded-lg border border-cyan-500/50 bg-cyan-950/40 text-cyan-300 font-bold text-xs text-center flex flex-col items-center space-y-1">
+                        <i class="fa-solid fa-music text-lg"></i>
+                        <span>Full Song (Lagu + Vokal)</span>
+                    </button>
+                    <button id="btnInstrumental" onclick="setSongMode('instrumental')" class="p-3 rounded-lg border border-slate-700 bg-slate-900 text-slate-400 font-bold text-xs text-center flex flex-col items-center space-y-1">
+                        <i class="fa-solid fa-guitar text-lg"></i>
+                        <span>Instrumental Only</span>
+                    </button>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-xs text-slate-300 font-semibold">LIRIK / LYRIC STUDIO</label>
+                        <button onclick="autoGenerateLyrics()" class="text-[11px] text-amber-400 hover:text-amber-300 flex items-center space-x-1 font-mono">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span>AI Auto Generate Lyrics</span>
+                        </button>
+                    </div>
+                    <textarea id="lyricInput" rows="4" oninput="updateSynchronizer()" placeholder="Ketik lirik lagu Anda di sini atau gunakan AI Auto Generate..." class="w-full cyber-input p-2.5 rounded-lg text-xs font-mono"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION B-E: VOKAL, MOOD & GENRE -->
+        <section class="cyber-card rounded-xl p-4">
+            <div class="flex items-center justify-between mb-3 border-b border-cyan-900/50 pb-2">
+                <h2 class="font-orbitron text-sm md:text-base font-bold text-cyan-400 uppercase tracking-wide">
+                    (B-E) VOKAL, MOOD & GENRE MUSIK
+                </h2>
+                <i class="fa-solid fa-microphone-lines text-cyan-400"></i>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- B: OPSI VOKAL -->
+                <div>
+                    <label class="block text-xs text-slate-300 font-semibold mb-1">(B) OPSI VOKAL (PILIH 1)</label>
+                    <select id="selectVocalOption" onchange="updateSynchronizer()" class="w-full cyber-input p-2 rounded-lg text-xs bg-slate-900">
+                        <option value="Male Lead">Male Lead Singer</option>
+                        <option value="Female Lead">Female Lead Singer</option>
+                        <option value="Duet Male-Female" selected>Duet (Male - Female)</option>
+                        <option value="Backing Vocals Group">Backing Vocals Group</option>
+                        <option value="Choir/Paduan Suara">Choir / Paduan Suara</option>
+                        <option value="Beatbox Lead">Beatbox Lead</option>
+                        <option value="Operatic Lead">Operatic Lead</option>
+                        <option value="Scream Lead">Scream/Growl Lead</option>
+                    </select>
+                </div>
+
+                <!-- C: KARAKTER VOKAL -->
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-xs text-slate-300 font-semibold">(C) KARAKTER VOKAL (Max 8)</label>
+                        <span id="countVocalChar" class="text-xs font-mono text-cyan-400">0/8</span>
+                    </div>
+                    <div id="vocalCharGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2 max-h-36 overflow-y-auto p-1">
+                        <!-- Dynamic Checkboxes -->
+                    </div>
+                </div>
+
+                <!-- D: MOOD / SUASANA -->
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-xs text-slate-300 font-semibold">(D) MOOD / SUASANA (Max 8)</label>
+                        <span id="countMood" class="text-xs font-mono text-cyan-400">0/8</span>
+                    </div>
+                    <div id="moodGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2 max-h-36 overflow-y-auto p-1">
+                        <!-- Dynamic Checkboxes -->
+                    </div>
+                </div>
+
+                <!-- E: GENRE MUSIK -->
+                <div>
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-1">
+                        <label class="text-xs text-slate-300 font-semibold">(E) GENRE MUSIK (Max 8)</label>
+                        <div class="flex items-center space-x-2">
+                            <input type="text" id="genreSearch" oninput="filterGenreList()" placeholder="Cari Genre..." class="cyber-input text-[11px] px-2 py-0.5 rounded w-32">
+                            <span id="countGenre" class="text-xs font-mono text-cyan-400">0/8</span>
+                        </div>
+                    </div>
+                    <div id="genreGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2 max-h-48 overflow-y-auto p-1 border border-slate-800 rounded-lg bg-black/40">
+                        <!-- Dynamic Genre List -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION F-H: MICROPHONE, AMP & CAB SUITE -->
+        <section class="cyber-card rounded-xl p-4">
+            <div class="flex items-center justify-between mb-3 border-b border-cyan-900/50 pb-2">
+                <h2 class="font-orbitron text-sm md:text-base font-bold text-cyan-400 uppercase tracking-wide">
+                    (F-H) MICROPHONE, AMP & CAB SUITE
+                </h2>
+                <i class="fa-solid fa-plug text-cyan-400"></i>
+            </div>
+
+            <div class="space-y-4">
+                <!-- F: MICROPHONE -->
+                <div>
+                    <label class="block text-xs text-slate-300 font-semibold mb-1">(F) STUDIO MICROPHONE (30 Brands - Pilih 1)</label>
+                    <select id="selectMicrophone" onchange="updateSynchronizer()" class="w-full cyber-input p-2 rounded-lg text-xs bg-slate-900">
+                        <!-- Populated via JS -->
+                    </select>
+                </div>
+
+                <!-- G: AMPLIFIERS -->
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-xs text-slate-300 font-semibold">(G) AMPLIFIER & SERIES (150 Brands, Max 4)</label>
+                        <span id="countAmp" class="text-xs font-mono text-cyan-400">0/4</span>
+                    </div>
+                    <div id="ampGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-40 overflow-y-auto p-1 bg-black/30 rounded-lg">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+
+                <!-- H: SPEAKER CABINET -->
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-xs text-slate-300 font-semibold">(H) SPEAKER CABINET (160 Brands, Max 4)</label>
+                        <span id="countCab" class="text-xs font-mono text-cyan-400">0/4</span>
+                    </div>
+                    <div id="cabGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-40 overflow-y-auto p-1 bg-black/30 rounded-lg">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION I-L: RHYTHM & GUITAR SECTION -->
+        <section class="cyber-card rounded-xl p-4">
+            <div class="flex items-center justify-between mb-3 border-b border-cyan-900/50 pb-2">
+                <h2 class="font-orbitron text-sm md:text-base font-bold text-cyan-400 uppercase tracking-wide">
+                    (I-L) RHYTHM & GUITAR SECTION
+                </h2>
+                <i class="fa-solid fa-drum text-cyan-400"></i>
+            </div>
+
+            <div class="space-y-4">
+                <!-- I: GUITARS -->
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-xs text-slate-300 font-semibold">(I) GITAR ELEKTRIK & AKUSTIK (Max 2)</label>
+                        <span id="countGuitar" class="text-xs font-mono text-cyan-400">0/2</span>
+                    </div>
+                    <div id="guitarGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-40 overflow-y-auto p-1 bg-black/30 rounded-lg">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+
+                <!-- J: BASS -->
+                <div>
+                    <label class="block text-xs text-slate-300 font-semibold mb-1">(J) BASS (70 Brands - Pilih 1)</label>
+                    <select id="selectBass" onchange="updateSynchronizer()" class="w-full cyber-input p-2 rounded-lg text-xs bg-slate-900">
+                        <!-- Populated via JS -->
+                    </select>
+                </div>
+
+                <!-- K: DRUM KIT -->
+                <div>
+                    <label class="block text-xs text-slate-300 font-semibold mb-1">(K) DRUM KIT (50 Brands - Pilih 1)</label>
+                    <select id="selectDrum" onchange="updateSynchronizer()" class="w-full cyber-input p-2 rounded-lg text-xs bg-slate-900">
+                        <!-- Populated via JS -->
+                    </select>
+                </div>
+
+                <!-- L: CYMBALS -->
+                <div>
+                    <label class="block text-xs text-slate-300 font-semibold mb-1">(L) CYMBALS (30 Brands - Pilih 1)</label>
+                    <select id="selectCymbal" onchange="updateSynchronizer()" class="w-full cyber-input p-2 rounded-lg text-xs bg-slate-900">
+                        <!-- Populated via JS -->
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION M-Q: EFEK, PEDAL & ALAT MUSIK DUNIA -->
+        <section class="cyber-card rounded-xl p-4">
+            <div class="flex items-center justify-between mb-3 border-b border-cyan-900/50 pb-2">
+                <h2 class="font-orbitron text-sm md:text-base font-bold text-cyan-400 uppercase tracking-wide">
+                    (M-Q) EFEK PEDAL, MIXING & ALAT MUSIK DUNIA
+                </h2>
+                <i class="fa-solid fa-compact-disc text-cyan-400"></i>
+            </div>
+
+            <div class="space-y-4">
+                <!-- M: MIXER CONSOLE -->
+                <div>
+                    <label class="block text-xs text-slate-300 font-semibold mb-1">(M) MIXER CONSOLE (30 Brands - Pilih 1)</label>
+                    <select id="selectMixer" onchange="updateSynchronizer()" class="w-full cyber-input p-2 rounded-lg text-xs bg-slate-900">
+                        <!-- Populated via JS -->
+                    </select>
+                </div>
+
+                <!-- N: MASTERING HARDWARE -->
+                <div>
+                    <label class="block text-xs text-slate-300 font-semibold mb-1">(N) MASTERING HARDWARE/PLUGIN (30 Brands - Pilih 1)</label>
+                    <select id="selectMastering" onchange="updateSynchronizer()" class="w-full cyber-input p-2 rounded-lg text-xs bg-slate-900">
+                        <!-- Populated via JS -->
+                    </select>
+                </div>
+
+                <!-- O: EFEK GITAR (100 BRANDS) -->
+                <div>
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 mb-1">
+                        <label class="text-xs text-slate-300 font-semibold">(O) EFEK GITAR / STOMPBOX (100 Brands, Max 12)</label>
+                        <div class="flex items-center space-x-2">
+       
