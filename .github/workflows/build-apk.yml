@@ -1,0 +1,21 @@
+name: Build BIXTONE APK
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build APK
+        uses: michael-holm/static-apk-builder@v1
+        with:
+          entry_file: index.html
+          app_name: BIXTONE ULTIMATE PRO
+          package_name: com.bixlabs.bixtone
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: BIXTONE-APK-FINAL
+          path: "*.apk"
