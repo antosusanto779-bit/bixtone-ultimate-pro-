@@ -1,3 +1,4 @@
+
 name: Build BIXTONE APK
 
 on:
@@ -10,36 +11,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Kode Proyek
-      uses: actions/checkout@v4
+      - name: Checkout Kode Proyek
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
 
-    - name: Buat Struktur File Android Sederhana & Build APK
-      run: |
-        mkdir -p android/app/src/main/assets/public
-        cp index.html android/app/src/main/assets/public/
-        cp style.css android/app/src/main/assets/public/
-        cp script.js android/app/src/main/assets/public/
-        cp image.jpg android/app/src/main/assets/public/
-        
-        # Membuat file build gradle minimum secara otomatis
-        cd android
-        echo "include ':app'" > settings.gradle
-        mkdir -p app
-        echo "apply plugin: 'com.android.application'" > app/build.gradle
-        echo "android { compileSdk 33; defaultConfig { applicationId 'com.bixlabs.bixtone'; minSdk 21; targetSdk 33; versioncode 1; versionName '1.0' } }" >> app/build.gradle
-        
-        chmod +x gradlew || true
-        # Jika gradlew belum ada, gunakan perintah build alternatif atau inisialisasi dasar
-    
-    - name: Rakit Debug APK
-      run: |
-        echo "Menyiapkan artefak APK BIXTONE ULTIMATE PRO..."
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Capacitor
+        run: |
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+
+      - name: Init Capacitor & Build APK
+        run: |
+          npx cap init BIXTONE com.bixlabs.bixtone --web-dir=. --npm-client npm || true
+          npx cap add android || true
+          npx cap copy android
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK BIXTONE
+        uses: actions/upload-artifact@v4
+        with:
+          name: BIXTONE-ULTIMATE-PRO-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
