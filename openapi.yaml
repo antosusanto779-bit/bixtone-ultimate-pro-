@@ -1,0 +1,55 @@
+openapi: 3.0.3
+info:
+  title: BIXTONE ULTIMATE PRO API
+  version: 0.1.0
+  description: |
+    API Music AI Generator BIXLABS.
+    Prompt = 3 Layer JSON dari promptBuilder.mjs
+    Layer1 Voice 1-8 menit tempo 50-200 ON OFF
+    Layer2 Instrument genre 150 amp 150 cab 150 electric 50 acoustic 30 bass 30 snare 50 cymbals 30 guitar fx 200 max12 bass fx 100 max10 world 150
+    Layer3 Studio mixer 30 mastering 30
+    Semua brand style inspire by aman legal approved.
+
+servers:
+    - url: https://api.bixtone.bixlabs.id
+    description: Ganti URL YouWare
+
+paths:
+  /v1/projects:
+    post:
+      summary: Create project draft
+      responses:
+        '201': { description: Created }
+
+  /v1/projects/{projectId}/generate:
+    post:
+      summary: Generate from 3 layer prompt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [prompt, seed]
+              properties:
+                prompt: { type: object, description: JSON from promptBuilder.mjs }
+                seed: { type: integer, minimum: 0 }
+                durationSeconds: { type: integer, minimum: 60, maximum: 480, default: 180 }
+                referencePolicyAccepted: { type: boolean, const: true }
+      responses:
+        '202': { description: Queued }
+
+  /v1/catalog:
+    get:
+      summary: Search approved catalog inspire by
+      parameters:
+                - { name: category, in: query, schema: { type: string } }
+                - { name: q, in: query, schema: { type: string } }
+      responses:
+        '200': { description: OK }
+
+  /v1/exports:
+    post:
+      summary: Export wav flac mp3 aac m4a ogg stems_zip
+      responses:
+        '202': { description: Queued }
