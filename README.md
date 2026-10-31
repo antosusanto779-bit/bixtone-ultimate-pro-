@@ -45,4 +45,3 @@ File inti: `src/prompt-builder.mjs` -> JSON payload from src/prompt-builder.mjs
 - Y: Player + Playlist
 - Z: Disclaimer inspire by + approved review -> GET /v1/catalog
 
-## STRUKTUR FOLDER
