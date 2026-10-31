@@ -16,18 +16,18 @@ File inti: `src/prompt-builder.mjs` -> JSON payload from src/prompt-builder.mjs
 - Duet Config: male-male, female-female, male-female
 - Voice Character: 50 pilihan, max 8
 - Mood: 50 pilihan, max 8
-- Microphone: 30 brand inspire by
+- Microphone: 30 brand style/inspire by
 - Record: RECORD + APPLY TO TRACK (Fitur W)
 
 ### LAYER 2 - INSTRUMENT TAB (TAB 2)
 - Genre: 150 pilihan, max 8
-- Amp: 150 brand, max 4, series/parallel mode
-- Cab: 150 brand, max 4, series/parallel mode
-- Electric Guitar: 50 brand (PISAH)
-- Acoustic Guitar: 30 brand (PISAH)
-- Bass: 30 brand, Snare: 50 brand, Cymbals: 30 brand
-- Guitar FX: 200 brand, max 12
-- Bass FX: 100 brand, max 10
+- Amp: 150 brand style/inspire by, max 4, series/parallel mode
+- Cab: 150 brand style/inspire by, max 4, series/parallel mode
+- Electric Guitar: 50 brand style/inspire by (PISAH)
+- Acoustic Guitar: 30 brand style/inspire by (PISAH)
+- Bass: 30 brand style/inspire by,Snare: 50 brand style/inspire by,Cymbals: 30 brand   style/inspire by 
+- Guitar FX style/inspire by: 200 brand, max 12
+- Bass FX style/inspire bu: 100 brand, max 10
 - World Instruments: 150 dunia, max 8
 - Structure: melody awal-tengah-akhir (intro, chorus, outro)
 
