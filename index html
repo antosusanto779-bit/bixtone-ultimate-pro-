@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIXTONE ULTIMATE PRO - BIXLABS FINAL</title>
+<style>
+  :root {
+    --bg-main: #060913;
+    --bg-card: #0d1526;
+    --bg-input: #111c33;
+    --border: #1e293b;
+    --border-focus: #2563eb;
+    --blue: #1d4ed8;
+    --blue-hover: #2563eb;
+    --gold: #f59e0b;
+    --gold-dark: #b45309;
+    --silver: #94a3b8;
+    --text: #f8fafc;
+  }
+
+  * { box-sizing: border-box; }
+  
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    background: radial-gradient(circle at top, #0f1d38 0%, var(--bg-main) 70%);
+    color: var(--text);
+    padding-bottom: 80px;
+    min-height: 100vh;
+  }
+
+  header {
+    background: linear-gradient(135deg, #070a13, #102244);
+    padding: 18px 14px;
+    text-align: center;
+    border-bottom: 2px solid var(--blue);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  }
+  header h1 {
+    margin: 0;
+    font-size: 20px;
+    color: var(--gold);
+    letter-spacing: 0.8px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+  }
+  header p {
+    margin: 6px 0 0;
+    font-size: 10px;
+    color: var(--silver);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+
+  /* Sticky Tabs Navigation */
+  .tabs {
+    display: flex;
+    background: #090e1a;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    overflow-x: auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  }
+  .tab {
+    flex: 1;
+    min-width: 105px;
+    padding: 14px 8px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 11px;
+    cursor: pointer;
+    color: var(--silver);
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+  .tab:hover {
+    color: var(--text);
+    background: rgba(29, 78, 216, 0.15);
+  }
+  .tab.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+    background: var(--bg-card);
+  }
+
+  .content {
+    display: none;
+    padding: 16px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .content.active { display: block; }
+
+  /* Card Container dengan Efek Elegan */
+  .card-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 14px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.35);
+    transition: border-color 0.2s;
+  }
+  .card-section:hover {
+    border-color: rgba(37, 99, 235, 0.4);
+  }
+
+  label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--silver);
+    display: block;
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 11px 12px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: var(--bg-input);
+    color: var(--text);
+    font-size: 12px;
+    outline: none;
+    transition: all 0.2s;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.25);
+  }
+  textarea { min-height: 85px; resize: vertical; }
+
+  .row { display: flex; gap: 10px; }
+  .row > div { flex: 1; }
+
+  /* Chip Container & Styling */
+  .chip-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-height: 210px;
+    overflow-y: auto;
+    padding: 6px 2px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--blue) var(--bg-input);
+  }
+  .chip-container::-webkit-scrollbar {
+    width: 5px;
+  }
+  .chip-container::-webkit-scrollbar-thumb {
+    background: var(--blue);
+    border-radius: 10px;
+  }
+  .chip {
+    background: #141f38;
+    border: 1px solid var(--border);
+    color: var(--silver);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
+  }
+  .chip:hover {
+    border-color: var(--blue);
+    color: var(--text);
+    transform: translateY(-1px);
+  }
+  .chip.sel {
+    background: linear-gradient(135deg, var(--blue), #2563eb);
+    color: white;
+    border-color: var(--gold);
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(29, 78, 216, 0.4);
+  }
+
+  /* Tombol Utama */
+  button.main {
+    width: 100%;
+    margin-top: 12px;
+    padding: 13px;
+    background: linear-gradient(90deg, var(--blue), var(--blue-hover));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(29, 78, 216, 0.35);
+    transition: filter 0.2s, transform 0.1s;
+  }
+  button.main:active {
+    transform: scale(0.98);
+  }
+  button.main.gold {
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+    color: #060913;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+  }
+
+  /* Kotak Hasil JSON */
+  pre {
+    white-space: pre-wrap;
+    background: #04060b;
+    border: 1px solid var(--border);
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 10.5px;
+    overflow: auto;
+    max-height: 280px;
+    color: #38bdf8;
+    font-family: monospace;
+    scrollbar-width: thin;
+  }
+
+  .badge {
+    font-size: 9px;
+    background: #17243d;
+    padding: 3px 7px;
+    border-radius: 5px;
+    color: var(--gold);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    float: right;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  .disclaimer {
+    font-size: 9.5px;
+    color: var(--silver);
+    text-align: center;
+    margin-top: 10px;
+    line-height: 1.5;
+    background: rgba(15, 23, 42, 0.6);
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>BIXTONE ULTIMATE PRO</h1>
+  <p>BIXLABS BOYOLALI | FINAL FIX - Voice Mood Genre World MURNI, Brand style/inspire by</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="openTab(event,'tab1')">LAYER 1 (VOKAL)</div>
+  <div class="tab" onclick="openTab(event,'tab2')">LAYER 2 (INSTRUMEN)</div>
+  <div class="tab" onclick="openTab(event,'tab3')">LAYER 3 (STUDIO)</div>
+  <div class="tab" onclick="openTab(event,'tab4')">POST & TOOLS</div>
+</div>
+
+<div id="tab1" class="content active">
+  <div class="card-section">
+    <label>(A) Generate Type & Durasi</label>
+    <div class="row">
+      <div><select id="genType"><option value="song">Song</option><option value="instrumental">Instrumental</option></select></div>
+      <div><select id="duration"><option value="60">1 Menit</option><option value="120">2 Menit</option><option value="180" selected>3 Menit</option><option value="240">4 Menit</option><option value="300">5 Menit</option><option value="360">6 Menit</option><option value="420">7 Menit</option><option value="480">8 Menit</option></select></div>
+    </div>
+  </div>
+
+  <div class="card-section">
+    <label>(B) Format Vokal</label>
+    <select id="vocalMode"><option value="single">Single</option><option value="duet">Duet</option></select>
+    <div class="row" style="margin-top:10px">
+      <div><select id="vocalGender"><option value="male">Male</option><option value="female">Female</option></select></div>
+      <div><select id="duetType"><option value="male-female">Male-Female</option><option value="male-male">Male-Male</option><option value="female-female">Female-Female</option></select></div>
+    </div>
+  </div>
+
+  <div class="card-section">
+    <label>(C) Karakter Vokal (50, Max 8) <span class="badge">MURNI</span></label>
+    <div id="voiceChips" class="chip-container"></div>
+  </div>
+
+  <div class="card-section">
+    <label>(D) Mood / Suasana (50, Max 8) <span class="badge">MURNI</span></label>
+    <div id="moodChips" class="chip-container"></div>
+  </div>
+
+  <div class="card-section">
+    <label>(F) Mikrofon Vokal (30 Brand) <span class="badge">style/inspire by BRAND</span></label>
+    <select id="mic"></select>
+  </div>
+
+  <div class="card-section">
+    <label>(A) Lirik Manual</label>
+    <textarea id="lyrics" placeholder="[Verse] Wujudkan mimpimu..."></textarea>
+  </div>
+</div>
+
+<div id="tab2" class="content">
+  <div class="card-section">
+    <label>(E) Genre (150, Max 8) <span class="badge">MURNI</span></label>
+    <div id="genreChips" class="chip-container"></div>
+  </div>
+
+  <div class="card-section">
+    <label>(G) Amplifier (150 Brand, Max 4) <span class="badge">style/inspire by BRAND</span></label>
+    <div id="ampChips" class="chip-container"></div>
+  </div>
+
+  <div class="card-section">
+    <label>(H) Cabinet / Cab (150 Brand, Max 4) <span class="badge">style/inspire by BRAND</span></label>
+    <div id="cabChips" class="chip-container"></div>
+  </div>
+
+  <div class="card-section">
+    <label>(I) Gitar Elektrik & Akustik - TERPISAH</label>
+    <div class="row">
+      <div><label style="font-size:10px; color:var(--gold);">Elektrik (50) style/inspire</label><select id="eg"></select></div>
+      <div><label style="font-size:10px; color:var(--gold);">Akustik (30) style/inspire</label><select id="ag"></select></div>
+    </div>
+  </div>
+
+  <div class="card-section">
+    <label>(J,L,M) Bass, Snare, Cymbals - BRAND</label>
+    <div class="row">
+      <div><label style="font-size:10px; color:var(--gold);">Bass (30) style/inspire</label><select id="bass"></select></div>
+      <div><label style="font-size:10px; color:var(--gold);">Snare (50) style/inspire</label><select id="snare"></select></div>
+    </div>
+    <div style="margin-top:10px">
+      <label style="font-size:10px; color:var(--gold);">Cymbals (30) style/inspire</label><select id="cymbals"></select>
+    </div>
+  </div>
+
+  <div class="card-section">
+    <label>(P) Efek Gitar (200 Brand, Max 12) <span class="badge">style/inspire by BRAND</span></label>
+    <div id="gfxChips" class="chip-container"></div>
+  </div>
+
+  <div class="card-section">
+    <label>(Q) Efek Bass (100 Brand, Max 10) <span class="badge">style/inspire by BRAND</span></label>
+    <div id="bfxChips" class="chip-container"></div>
+  </div>
+
+  <div class="card-section">
+    <label>(R) Alat Musik Dunia (150 Familiar, Max 8) <span class="badge">MURNI FAMILIAR</span></label>
+    <div id="worldChips" class="chip-container"></div>
+  </div>
+</div>
+
+<div id="tab3" class="content">
+  <div class="card-section">
+    <label>(N) Mixer Console (30 Brand) <span class="badge">style/inspire by BRAND</span></label>
+    <select id="mixer"></select>
+  </div>
+
+  <div class="card-section">
+    <label>(O) Mastering Processor (30 Brand) <span class="badge">style/inspire by BRAND</span></label>
+    <select id="mastering"></select>
+  </div>
+
+  <div class="card-section">
+    <label>(S) Generate Prompt</label>
+    <p style="font-size:10.5px; color:var(--gold); margin:6px 0 12px 0; line-height:1.4;">Prioritas: Intro Awal -> Chorus Tengah -> Outro Akhir | Electric & Acoustic PISAH</p>
+    <button class="main gold" onclick="buildPrompt()">GENERATE 3 LAYER PROMPT</button>
+  </div>
+
+  <div class="card-section">
+    <label>Hasil JSON 3 Layer</label>
+    <pre id="output">Klik GENERATE...</pre>
+    <button class="main" onclick="copyOutput()">COPY JSON</button>
+  </div>
+</div>
+
+<div id="tab4" class="content">
+  <div class="card-section">
+    <label>Post Tools & Legal</label>
+    <p class="disclaimer"><b>Disclaimer Legal:</b> 13 kategori brand (mic, gitar, bass, drum, snare, cymbals, amp, cab, efek gitar, efek bass, mixer, mastering) pakai format <i>style/inspire by BRAND</i>. Voice, Mood, Genre, Alat Musik Dunia MURNI tanpa inspire by. BIXTONE ULTIMATE PRO BIXLABS BOYOLALI aman hak cipta.</p>
+  </div>
+</div>
+
+<script>
+// === DATA FINAL FIX SESUAI ATURAN BIXLABS ===
+const voices = ["Powerful Baritone Warm Deep","Soaring Tenor Operatic Range","Soulful Male R&B Falsetto","Gritty Rock Male Raw","Melancholic Male Coldplay Style","Falsetto Pop Male High","Deep Bass Male Resonant","Indonesian Male Pop Smooth","Indonesian Male Dangdut Classic","Keroncong Male Traditional","Powerful Female Belt High Power","Agile Female R&B Runs","Breathy Female Pop Soft","Rock Female Powerful Hayley Style","Jazz Female Warm Norah Style","Indonesian Female Pop Clear","Indonesian Female Power Diva","Dangdut Female Modern Koplo","Child Female Bright Innocent","Operatic Soprano Classical","Rap Male Aggressive Fast Flow","Rap Male Mellow Melodic","Trap AutoTune Male Modern","HipHop Female Fierce","Reggae Male Laidback","Blues Male Soulful","Country Male Baritone Cash Style","Country Female Twang","EDM Male Airy Weeknd Style","EDM Female Dance Dua Style","Metal Growl Male Hetfield Style","Metal Scream Female Amy Style","Gospel Male Choir Lead","Gospel Female Soul Aretha Style","Folk Male Intimate Ed Sheeran Style","Folk Female Dreamy Taylor Folklore","Indie Male Thom Yorke Style","Indie Female Dreamy Lana Style","K-Pop Male Jungkook Style","K-Pop Female IU Style","J-Pop Female LiSA Anime Style","Vocal Fry Male Modern Pop","Nasal Male Bob Dylan Style","Whisper Female Billie Eilish ASMR","Choir Mixed Harmony Ensemble","Child Male Bright Innocence","Senior Male Wise Warm","Senior Female Vintage Jazz","Arabic Male Maqam Ornament","Arabic Female Umm Kulthum Ornament"];
+const moods = ["Happy Energetic","Sad Melancholic","Romantic Intimate","Angry Aggressive","Calm Meditative","Mysterious Dark","Uplifting Hopeful","Nostalgic Vintage","Dreamy Ethereal","Epic Cinematic","Groovy Funky","Chill LoFi","Depressed Heavy","Confident Powerful","Sensual Seductive","Spiritual Sacred","Patriotic Anthemic","Rebellious Punk","Innocent Pure","Suspense Thriller","Joyful Celebration","Lonely Isolated","Motivational Workout","Lazy Sunday","Tropical Beach","Urban Street","Rural Village Boyolali","Futuristic Cyberpunk","Retro 70s","Acoustic Campfire","Orchestral Grand","Minimalist Sparse","Chaotic Noisy","Warm Cozy","Cold Icy","Mystical Magic","Heroic Brave","Tragic Heartbreak","Playful Childish","Sexy Late Night","Dark Trap","Bright Morning","Evening Sunset","Industrial Mechanical","Nature Forest","Ocean Wave","Desert Dry","Space Cosmic","Religious Devotion","Peaceful Harmony"];
+const genres = ["Pop Indonesia","Pop Rock","Rock Alternatif","Hard Rock","Heavy Metal","Punk Rock","Indie Pop","Indie Rock","EDM House","EDM Future Bass","Dubstep","Trap","Hip Hop Old School","Hip Hop Modern","R&B Soul","Neo Soul","Jazz Swing","Jazz Fusion","Blues Electric","Blues Acoustic","Country Pop","Country Rock","Folk Acoustic","Reggae Roots","Reggaeton","Ska","Dangdut Original","Dangdut Koplo","Dangdut Modern","Keroncong","Campursari","Gamelan Modern","Javanese Pop","Sunda Pop","Bali Pop","Koplo Jawa","Funk","Disco","Lo-Fi Hip Hop","K-Pop","J-Pop","Arabic Pop","Qasidah Modern","Gospel","Acapella","Orchestral Film Score","Classical Piano","Bossa Nova","Samba","Afrobeat","Amapiano","Drum & Bass","Techno","Trance","Ambient","Post Rock","Emo","Metalcore","Death Metal","Nu Metal","Grunge","Britpop","Synthwave 80s","City Pop","Indonesian City Pop","Rock Jawa","Pop Punk Jawa","Ska Jawa","Reggae Jawa","Hip Hop Jawa","EDM Dangdut","House Dangdut","Breakbeat","Afrobeats Pop","Dancehall","Tropical House","Progressive House","Deep House","Minimal Techno","Hardstyle","Bedroom Pop","Indie Folk","Alt R&B","Contemporary R&B","Soul Funk","Barbershop","Rockabilly","Psych Rock","Garage Rock","Post Punk","New Wave","Industrial Rock","Dream Pop","Chamber Pop","Art Pop","Experimental","Jazz Rock Fusion","Smooth Jazz","Bluegrass","Americana","Alt Country","Flamenco","Fado","Tango","Cumbia","Bachata","Salsa","Mambo","Mariachi","Andean Folk","Celtic Folk","Nordic Folk","Balkan Brass","Klezmer","Gamelan Bali","Gamelan Jawa","Angklung","Kolintang","Sasando","Tifa Drum","Sape Dayak","Gendang Melayu","Rebana","Kecapi Sunda","Suling Sunda","Calung Banyumas","Gendang Beleq","Kerinduan Pop","Galau Pop","Lo-Fi Jawa","Pop Melayu","Rock Melayu","Dangdut Remix House","Koplo Parahot","Jaranan Pop","Langgam Jawa","Pop Jawa Koplo","Sholawat Modern","Nasyid Modern","Rock Sholawat","Pop Religi","Dangdut Religi","Campursari Koplo","Pop Koplo Jawa","Reggae Pop Indonesia","Ska Pop Indonesia","Folk Jawa","Indie Jawa","EDM Koplo","Funk Koplo","Jazz Koplo","Rock Koplo"];
+const mics = ["style/inspire by Neumann U87 Ai","style/inspire by Neumann U47","style/inspire by Neumann TLM 103","style/inspire by AKG C414 XLII","style/inspire by AKG C12 VR","style/inspire by Shure SM7B","style/inspire by Shure SM58","style/inspire by Shure SM57","style/inspire by Sennheiser MD421 II","style/inspire by Sennheiser MKH 416","style/inspire by Telefunken ELA M 251E","style/inspire by Sony C-800G","style/inspire by Manley Gold Reference","style/inspire by Rode NT1 5th Gen","style/inspire by Audio-Technica AT4050","style/inspire by Audio-Technica AT2020","style/inspire by Electro-Voice RE20","style/inspire by Blue Bluebird SL","style/inspire by Lewitt LCT 940","style/inspire by Warm Audio WA-87 R2","style/inspire by Warm Audio WA-47","style/inspire by Rode NTK","style/inspire by SE Electronics sE2200","style/inspire by AKG P220","style/inspire by Samson Q2U","style/inspire by Brauner VM1","style/inspire by Behringer C-1","style/inspire by Blue Yeti Pro","style/inspire by Electro-Voice RE320","style/inspire by Telefunken U47"];
+const eg = ["style/inspire by Fender Stratocaster American Vintage - PISAH","style/inspire by Fender Telecaster 52 Reissue - PISAH","style/inspire by Fender Jazzmaster - PISAH","style/inspire by Gibson Les Paul Standard 59 - PISAH","style/inspire by Gibson SG 61 Reissue - PISAH","style/inspire by Gibson ES-335 - PISAH","style/inspire by PRS Custom 24 - PISAH","style/inspire by PRS McCarty 594 - PISAH","style/inspire by Ibanez JEM 7V Steve Vai - PISAH","style/inspire by Ibanez RG550 Genesis - PISAH","style/inspire by ESP Eclipse E-II - PISAH","style/inspire by ESP LTD EC-1000 - PISAH","style/inspire by Jackson Soloist SL2 - PISAH","style/inspire by Jackson Rhoads RR - PISAH","style/inspire by Charvel San Dimas - PISAH","style/inspire by Gretsch White Falcon - PISAH","style/inspire by Gretsch Duo Jet - PISAH","style/inspire by Epiphone Les Paul Custom - PISAH","style/inspire by Yamaha Pacifica 612 - PISAH","style/inspire by Yamaha Revstar RSS20 - PISAH","style/inspire by Schecter C-1 Hellraiser - PISAH","style/inspire by Suhr Modern Plus - PISAH","style/inspire by Music Man Majesty Petrucci - PISAH","style/inspire by Music Man Cutlass - PISAH","style/inspire by G&L Legacy - PISAH","style/inspire by Duesenberg Starplayer TV - PISAH","style/inspire by Rickenbacker 360 - PISAH","style/inspire by Dean ML 79 - PISAH","style/inspire by BC Rich Warlock - PISAH","style/inspire by Washburn N4 Nuno - PISAH","style/inspire by Cort X700 Duality - PISAH","style/inspire by Ibanez AZ2402 - PISAH","style/inspire by Fender Mustang 65 - PISAH","style/inspire by Gibson Flying V 67 - PISAH","style/inspire by Gibson Explorer - PISAH","style/inspire by Epiphone Casino - PISAH","style/inspire by Yamaha SG2000 - PISAH","style/inspire by PRS Silver Sky John Mayer - PISAH","style/inspire by Squier Classic Vibe Tele - PISAH","style/inspire by Harley Benton Fusion III - PISAH","style/inspire by Sterling JP150 - PISAH","style/inspire by LTD Snakebyte Hetfield - PISAH","style/inspire by Ibanez Iceman - PISAH","style/inspire by Gibson Firebird V - PISAH","style/inspire by Fender Jag-Stang - PISAH","style/inspire by Jackson Dinky DK2 - PISAH","style/inspire by PRS Hollowbody II - PISAH","style/inspire by Gibson Les Paul Custom Black Beauty - PISAH","style/inspire by Ibanez JEM77P - PISAH","style/inspire by Fender Jazzmaster Ultra - PISAH"];
+const ag = ["style/inspire by Martin D-28 - PISAH","style/inspire by Martin 000-28 - PISAH","style/inspire by Taylor 814ce V-Class - PISAH","style/inspire by Taylor GS Mini - PISAH","style/inspire by Gibson J-45 Standard - PISAH","style/inspire by Gibson Hummingbird - PISAH","style/inspire by Yamaha FG800 - PISAH","style/inspire by Yamaha LL16 ARE - PISAH","style/inspire by Yamaha APX600 - PISAH","style/inspire by Fender CD-60S - PISAH","style/inspire by Ibanez AE245 - PISAH","style/inspire by Ibanez AVD10 - PISAH","style/inspire by Cort AD810 - PISAH","style/inspire by Cort Gold O6 - PISAH","style/inspire by Epiphone Dove Pro - PISAH","style/inspire by Epiphone EJ-200SCE - PISAH","style/inspire by Takamine GD93CE - PISAH","style/inspire by Ovation Celebrity Elite - PISAH","style/inspire by Alvarez AD60 - PISAH","style/inspire by Guild D-55 - PISAH","style/inspire by Guild OM-240CE - PISAH","style/inspire by Seagull S6 Original - PISAH","style/inspire by Breedlove Oregon Concerto - PISAH","style/inspire by Maton EBG808 Tommy Emmanuel - PISAH","style/inspire by Cole Clark Angel 2 - PISAH","style/inspire by Larrivee D-40 - PISAH","style/inspire by Eastman E8D - PISAH","style/inspire by Blueridge BR-140 - PISAH","style/inspire by Washburn D10SCE - PISAH","style/inspire by Harley Benton CLD-15MCE - PISAH"];
+const basses = ["style/inspire by Fender Precision American Pro II","style/inspire by Fender Jazz American Ultra","style/inspire by Fender Mustang Bass","style/inspire by Music Man StingRay Special","style/inspire by Music Man Sterling","style/inspire by Ibanez SR500E","style/inspire by Ibanez BTB747","style/inspire by Gibson Thunderbird","style/inspire by Gibson SG Bass","style/inspire by Yamaha TRBX504","style/inspire by Yamaha BB734A","style/inspire by Rickenbacker 4003","style/inspire by Hofner Violin Bass 500/1","style/inspire by Spector Euro 4 LX","style/inspire by Warwick Thumb BO","style/inspire by Warwick Corvette $$","style/inspire by ESP LTD B-4E","style/inspire by Schecter Stiletto Studio 5","style/inspire by Cort Action Bass Plus","style/inspire by Squier Classic Vibe Jazz Bass","style/inspire by Lakland 55-02","style/inspire by Dingwall Combustion NG2","style/inspire by Sandberg California TM4","style/inspire by MTD Kingston Z5","style/inspire by G&L L-2000","style/inspire by Epiphone Viola Bass","style/inspire by Ibanez EHB1005MS Headless","style/inspire by Yamaha BBPH Peter Hook","style/inspire by Fender Aerodyne Jazz Bass","style/inspire by Fender Dimension Bass"];
+const snares = ["style/inspire by Ludwig Supraphonic LM400","style/inspire by Ludwig Black Beauty LB417","style/inspire by Pearl Masters Maple","style/inspire by Pearl Sensitone Brass","style/inspire by Tama Starphonic Brass","style/inspire by Tama SLP G-Maple","style/inspire by DW Collectors Maple","style/inspire by DW Edge Brass Wood","style/inspire by Gretsch USA Custom Maple","style/inspire by Slingerland Radio King","style/inspire by Yamaha Recording Custom Brass","style/inspire by Yamaha Absolute Hybrid Maple","style/inspire by Mapex Black Panther Brass","style/inspire by Sonor SQ2 Heavy Beech","style/inspire by Noble & Cooley Alloy Classic","style/inspire by Craviotto Private Reserve Maple","style/inspire by Canopus Zelkova","style/inspire by British Drum Co Bluebird Brass","style/inspire by Pork Pie Big Black Brass","style/inspire by OCDP Travis Barker","style/inspire by Pearl Free Floating Brass","style/inspire by Tama Starclassic Bubinga","style/inspire by DW True Cast Bell Bronze","style/inspire by Ludwig Acrolite","style/inspire by Gretsch Bell Brass","style/inspire by Yamaha Steve Gadd Steel","style/inspire by Pearl Omar Hakim Signature","style/inspire by Mapex Wraith Matt Halpern","style/inspire by Tama John Tempesta Signature","style/inspire by Sonor Benny Greb Signature","style/inspire by Noble & Cooley Solid Shell Maple","style/inspire by Canopus Type R Birch","style/inspire by British Drum Co Merlin Brass","style/inspire by Pork Pie Little Squealer","style/inspire by Slingerland Sound King Brass","style/inspire by OCDP Venice Acrylic","style/inspire by Q Drum Co Copper","style/inspire by A&F Maple Club","style/inspire by Joyful Noise TKO Brass","style/inspire by Keplinger Stainless Steel","style/inspire by Craviotto Solid Walnut","style/inspire by Pearl Free Floating Brass Duplicate","style/inspire by Tama Starphonic Aluminum","style/inspire by DW Collectors Aluminum","style/inspire by Gretsch Brooklyn Brass","style/inspire by Yamaha Recording Custom Aluminum","style/inspire by Mapex Black Panther Walnut","style/inspire by Sonor D-515 PA Beech","style/inspire by Noble & Cooley Solid Shell Cherry","style/inspire by Canopus Ash"];
+const cymbalsList = ["style/inspire by Zildjian K Custom Dark Ride 22","style/inspire by Zildjian K Sweet Ride 21","style/inspire by Zildjian A Custom Crash 18","style/inspire by Zildjian K Constantinople 22","style/inspire by Sabian HHX Complex Medium Ride 22","style/inspire by Sabian AAX X-Plosion Crash 18","style/inspire by Sabian Artisan Light Ride 22","style/inspire by Sabian HH Vanguard Ride 21","style/inspire by Paiste 2002 Big Beat 24","style/inspire by Paiste Signature Dark Energy Ride 21","style/inspire by Paiste Masters Dark Crash 18","style/inspire by Paiste PST X Swiss Thin Crash 18","style/inspire by Meinl Byzance Vintage Pure Light Ride 22","style/inspire by Meinl Byzance Extra Dry Thin Crash 18","style/inspire by Meinl Classics Custom Dark Crash 18","style/inspire by Istanbul Agop Traditional Dark Ride 22","style/inspire by Istanbul Mehmet 60s New Dimension Ride 22","style/inspire by Bosphorus Traditional Antique Ride 22","style/inspire by UFIP Natural Ride 22","style/inspire by Dream Bliss Crash Ride 22","style/inspire by Zildjian K Light Hi-Hat 14","style/inspire by Zildjian A New Beat Hi-Hat 14","style/inspire by Sabian HHX Groove Hats 14","style/inspire by Paiste 2002 Sound Edge Hi-Hat 14","style/inspire by Meinl Byzance Traditional Medium Hi-Hat 14","style/inspire by Istanbul Agop Xist Dry Dark Hi-Hat 14","style/inspire by Zildjian K Custom Hybrid China 19","style/inspire by Sabian AA Holy China 19","style/inspire by Paiste 2002 China Type 18","style/inspire by Meinl Byzance Dual Trash Crash 18"];
+const amps = ["style/inspire by Marshall JCM800 2203","style/inspire by Marshall Plexi 1959SLP","style/inspire by Marshall JTM45","style/inspire by Marshall JVM410H","style/inspire by Marshall Silver Jubilee 2555X","style/inspire by Fender Twin Reverb 65","style/inspire by Fender Deluxe Reverb 65","style/inspire by Fender Bassman 59","style/inspire by Fender Blues Junior IV","style/inspire by Vox AC30 C2","style/inspire by Vox AC15 C1","style/inspire by Mesa Boogie Dual Rectifier","style/inspire by Mesa Boogie Mark V","style/inspire by Mesa Boogie Lone Star","style/inspire by Bogner Uberschall","style/inspire by Bogner Ecstasy 101B","style/inspire by Diezel VH4","style/inspire by Diezel Herbert","style/inspire by ENGL Powerball II","style/inspire by ENGL Savage 120","style/inspire by Peavey 5150 / 6505","style/inspire by Orange Rockerverb 100 MKIII","style/inspire by Orange AD30","style/inspire by EVH 5150 III 50W","style/inspire by PRS Archon 100","style/inspire by Suhr PT100 Pete Thorn","style/inspire by Friedman BE-100","style/inspire by Friedman Smallbox","style/inspire by Soldano SLO-100","style/inspire by Randall Satan 50",...Array.from({length:120},(_,i)=>`style/inspire by Amp Brand ${i+31}`)];
+const cabs = ["style/inspire by Marshall 1960A 4x12 G12T-75","style/inspire by Marshall 1960B 4x12","style/inspire by Marshall 1960AV 4x12 Vintage 30","style/inspire by Mesa Boogie Rectifier Standard 4x12 V30","style/inspire by Mesa Boogie Traditional 4x12","style/inspire by Orange PPC412 4x12 V30","style/inspire by Orange PPC212 2x12 V30","style/inspire by Vox AC30 2x12 Alnico Blue","style/inspire by Fender Twin 2x12 Jensen C12K","style/inspire by Peavey 6505 4x12 Sheffield","style/inspire by EVH 5150 III 4x12 G12H","style/inspire by Bogner 4x12 Uberkab","style/inspire by Diezel 4x12 FL V30","style/inspire by ENGL E412VSB 4x12 V60","style/inspire by Randall 4x12 XL V30",...Array.from({length:135},(_,i)=>`style/inspire by Cab Brand ${i+16}`)];
+const gfx = ["style/inspire by Boss DS-1 Distortion","style/inspire by Ibanez TS808 Tube Screamer","style/inspire by Klon Centaur","style/inspire by Electro-Harmonix Big Muff Pi","style/inspire by MXR Dyna Comp","style/inspire by MXR Carbon Copy","style/inspire by Boss CE-2 Chorus","style/inspire by Boss DD-8 Digital Delay","style/inspire by Strymon Timeline","style/inspire by Strymon BigSky","style/inspire by Eventide H9 Max","style/inspire by Line 6 DL4 MkII","style/inspire by TC Electronic Hall of Fame 2","style/inspire by Wampler Tumnus","style/inspire by Fulltone OCD V2","style/inspire by ProCo RAT 2","style/inspire by Dunlop Cry Baby GCB95","style/inspire by Digitech Whammy V","style/inspire by EarthQuaker Devices Afterneath","style/inspire by Walrus Audio Julia","style/inspire by Chase Bliss Mood","style/inspire by Meris Enzo","style/inspire by Source Audio Nemesis","style/inspire by Keeley Caverns","style/inspire by Xotic EP Booster","style/inspire by Paul Cochrane Timmy V3","style/inspire by Analogman King of Tone",...Array.from({length:173},(_,i)=>`style/inspire by Guitar Effect Brand ${i+28}`)];
+const bfx = ["style/inspire by Darkglass Microtubes B7K V2","style/inspire by Darkglass Alpha Omega Ultra","style/inspire by Aguilar Tone Hammer Preamp DI","style/inspire by SansAmp Bass Driver DI V2","style/inspire by MXR M81 Bass Preamp","style/inspire by MXR M87 Bass Compressor","style/inspire by Boss ODB-3 Bass OverDrive","style/inspire by Electro-Harmonix Bass Big Muff Pi","style/inspire by TC Electronic SpectraComp Bass Compressor","style/inspire by Ampeg Scrambler Bass Overdrive",...Array.from({length:90},(_,i)=>`style/inspire by Bass Effect Brand ${i+11}`)];
+const world = ["Angklung","Gamelan Gong Ageng","Gamelan Bonang","Gamelan Saron","Gamelan Gender","Gamelan Kendang","Kolintang","Sasando","Tifa","Sape Dayak","Kecapi Sunda","Suling Sunda","Rebana","Bedug","Gendang Melayu","Calung Banyumas","Gendang Beleq Lombok","Kenong","Kethuk Kempul","Slenthem","Gambang","Saron Barung","Bonang Panerus","Kendang Ciblon","Marawis","Kompang","Serunai Melayu","Suling Bali","Gamelan Demung","Gamelan Peking","Sitar Indian","Tabla Indian","Sarod Indian","Bansuri Indian","Shamisen Japanese","Koto Japanese","Taiko Japanese","Shakuhachi Japanese","Erhu Chinese","Guzheng Chinese","Pipa Chinese","Gayageum Korean","Janggu Korean","Dan Tranh Vietnamese","Ranad Thai","Khim Thai","Bagpipe Scottish","Bodhran Irish","Tin Whistle Irish","Harp Celtic","Balalaika Russian","Accordion French","Bandoneon Argentine","Charango Andean","Quena Andean","Pan Flute Andean","Berimbau Brazilian","Cuica Brazilian","Steel Pan Trinidad","Kalimba African","Djembe African","Kora African","Didgeridoo Australian","Native American Flute","Banjo American","Mandolin","Ukulele Hawaiian","Marimba","Vibraphone","Glockenspiel","Hang Drum Handpan","Theremin","Oud Arabic","Qanun Arabic","Darbuka","Sitar Bass","Esraj Indian","Mridangam","Kalimba Bass","Waterphone","Stylophone","Santoor Indian","Erhu Bass","Sarod Bass","Tanpura Drone Indian","Shekere African","Guiro Latin","Cabasa Latin","Claves Latin","Maracas Latin","Bongo Latin","Congas Latin","Timbales Latin","Cajon Spanish","Castanets Spanish","Tambourine","Triangle","Cowbell","Woodblock","Agogo Bell","Oud Bass","Rebab Jawa","Rebab Arab","Gong Bumbung",...Array.from({length:50},(_,i)=>`Ethnic Instrument ${i+101}`)];
+const mixers = ["style/inspire by SSL G-Series G384","style/inspire by SSL 9000J","style/inspire by Neve 88RS","style/inspire by Neve 8078 vintage","style/inspire by API 1608","style/inspire by API 2448","style/inspire by Yamaha PM10 Rivage","style/inspire by Yamaha CL5","style/inspire by Allen & Heath dLive S7000","style/inspire by Midas Heritage 3000","style/inspire by Studer Vista X","style/inspire by Lawo mc2 96","style/inspire by Avid S6L","style/inspire by SSL AWS 948","style/inspire by Harrison 32Classic","style/inspire by Trident 88","style/inspire by Soundcraft Vi7000","style/inspire by Behringer X32","style/inspire by Behringer Wing","style/inspire by Tascam Model 24","style/inspire by Mackie 8-Bus 32x8","style/inspire by Midas PRO X","style/inspire by Studer Vista 5","style/inspire by Avid S6 studio","style/inspire by Harrison MPC5","style/inspire by Trident 80B","style/inspire by Soundcraft Ghost 32","style/inspire by Yamaha DM2000","style/inspire by Allen & Heath SQ-7","style/inspire by Neve Genesys Black"];
+const masterings = ["style/inspire by FabFilter Pro-L2","style/inspire by iZotope Ozone 11 Advanced","style/inspire by Waves L2 Ultramaximizer","style/inspire by UAD Manley Massive Passive","style/inspire by UAD Shadow Hills Mastering Compressor","style/inspire by UAD Ampex ATR-102","style/inspire by SSL G-Master Buss Compressor","style/inspire by Brainworx bx_XL V3","style/inspire by Slate FG-X2","style/inspire by FabFilter Pro-Q3","style/inspire by Sonnox Oxford Inflator","style/inspire by Tokyo Dawn Limiter 6 GE","style/inspire by DMG Limitless","style/inspire by Weiss DS1-MK3","style/inspire by Leapwing DynOne 3","style/inspire by Newfangled Elevate","style/inspire by Acustica Audio Ash Ultra","style/inspire by IK Multimedia Stealth Limiter","style/inspire by PSP Xenon","style/inspire by Voxengo Elephant 5","style/inspire by Goodhertz Faraday Limiter","style/inspire by Softube Weiss MM-1","style/inspire by Waves Abbey Road TG Mastering Chain","style/inspire by Sonnox Oxford Limiter v3","style/inspire by DMG Equilibrium","style/inspire by Weiss EQ1","style/inspire by Leapwing LimitOne","style/inspire by Plugin Alliance bx_masterdesk","style/inspire by Klanghelm DC8C3","style/inspire by Ozone Maximizer IRC IV"];
+
+function populateSelect(id, arr){ const el=document.getElementById(id); el.innerHTML=''; arr.forEach(item=>{ const opt=document.createElement('option'); opt.value=item; opt.textContent=item; el.appendChild(opt); }); }
+populateSelect('mic', mics);populateSelect('eg', eg);populateSelect('ag', ag);populateSelect('bass', basses);populateSelect('snare', snares);populateSelect('cymbals', cymbalsList);populateSelect('mixer', mixers);populateSelect('mastering', masterings);
+function makeChips(id, list, max){ const el=document.getElementById(id); el.innerHTML=''; let sel=[]; list.forEach(t=>{ const s=document.createElement('span'); s.className='chip'; s.textContent=t; s.onclick=()=>{ if(s.classList.contains('sel')){ s.classList.remove('sel'); sel=sel.filter(x=>x!==t); }else{ if(sel.length>=max) return alert('Max '+max); s.classList.add('sel'); sel.push(t); } el.dataset.sel=JSON.stringify(sel); }; el.appendChild(s); }); el.dataset.sel='[]'; }
+makeChips('voiceChips', voices, 8);makeChips('moodChips', moods, 8);makeChips('genreChips', genres, 8);makeChips('ampChips', amps, 4);makeChips('cabChips', cabs, 4);makeChips('gfxChips', gfx, 12);makeChips('bfxChips', bfx, 10);makeChips('worldChips', world, 8);
+function openTab(e,n){ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); document.querySelectorAll('.content').forEach(c=>c.classList.remove('active')); document.getElementById(n).classList.add('active'); e.currentTarget.classList.add('active'); }
+function getSel(id){ try{return JSON.parse(document.getElementById(id).dataset.sel||'[]');}catch{return [];} }
+function buildPrompt(){ const obj={app:{name:"BIXTONE ULTIMATE PRO",creator:"BIXLABS BOYOLALI"},layer1_vocal:{generate_type:document.getElementById('genType').value,durationSeconds:parseInt(document.getElementById('duration').value),vocal_setup:document.getElementById('vocalMode').value==='single'?document.getElementById('vocalGender').value:document.getElementById('duetType').value,voice_character:getSel('voiceChips'),mood:getSel('moodChips'),microphone:document.getElementById('mic').value,lyrics_manual:document.getElementById('lyrics').value},layer2_instrument:{genre:getSel('genreChips'),amp:getSel('ampChips'),cab:getSel('cabChips'),electric_guitar:document.getElementById('eg').value,acoustic_guitar:document.getElementById('ag').value,bass:document.getElementById('bass').value,snare_drum:document.getElementById('snare').value,cymbals:document.getElementById('cymbals').value,guitar_fx:getSel('gfxChips'),bass_fx:getSel('bfxChips'),world_instruments:getSel('worldChips')},layer3_studio:{mixer:document.getElementById('mixer').value,mastering:document.getElementById('mastering').value},legal:"Brand categories use style/inspire by: mic,gitar,bass,drum,snare,cymbals,amp,cab,efek gitar,efek bass,mixer,mastering. Others pure."}; document.getElementById('output').textContent=JSON.stringify(obj,null,2); }
+function copyOutput(){navigator.clipboard.writeText(document.getElementById('output').textContent); alert('JSON copied!');}
+</script>
+</body>
+</html>
