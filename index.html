@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIXTONE ULTIMATE PRO - BIXLABS</title>
+<style>
+  :root {
+    --bg-main: #090d16;
+    --bg-card: #131c2e;
+    --bg-input: #1a253a;
+    --border-color: #2a3b5c;
+    --blue: #2563eb;
+    --blue-hover: #1d4ed8;
+    --silver: #94a3b8;
+    --gold: #fbbf24;
+    --gold-dark: #d97706;
+    --text-white: #f8fafc;
+  }
+
+  * { box-sizing: border-box; }
+  
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--bg-main);
+    color: var(--text-white);
+    padding-bottom: 40px;
+  }
+
+  header {
+    background: linear-gradient(135deg, #090d16, #10264a);
+    padding: 18px 12px;
+    text-align: center;
+    border-bottom: 2px solid var(--blue);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+  header h1 {
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    color: var(--gold);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
+  header p {
+    margin: 6px 0 0;
+    font-size: 11px;
+    color: var(--silver);
+    font-weight: 500;
+  }
+
+  .tabs {
+    display: flex;
+    background: #0d1424;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .tab {
+    flex: 1;
+    padding: 14px 8px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--silver);
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+  }
+  .tab:hover {
+    color: var(--text-white);
+    background: rgba(37, 99, 235, 0.1);
+  }
+  .tab.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+    background: var(--bg-card);
+  }
+
+  .content {
+    display: none;
+    padding: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .content.active {
+    display: block;
+  }
+
+  .card-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  }
+
+  label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--silver);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 11px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-input);
+    color: var(--text-white);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--blue);
+  }
+  textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+
+  .row {
+    display: flex;
+    gap: 10px;
+  }
+  .row > div {
+    flex: 1;
+  }
+
+  .chip-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-height: 160px;
+    overflow-y: auto;
+    padding: 4px 0;
+  }
+  .chip {
+    display: inline-block;
+    background: #172238;
+    border: 1px solid var(--border-color);
+    color: var(--silver);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .chip:hover {
+    border-color: var(--blue);
+    color: var(--text-white);
+  }
+  .chip.sel {
+    background: var(--blue);
+    color: white;
+    border-color: var(--gold);
+    font-weight: 600;
+  }
+
+  button.main {
+    width: 100%;
+    margin-top: 14px;
+    padding: 14px;
+    background: linear-gradient(90deg, var(--blue), var(--blue-hover));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    transition: filter 0.2s;
+  }
+  button.main:active {
+    filter: brightness(0.9);
+  }
+  button.main.gold {
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+    color: #090d16;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+  }
+
+  pre {
+    white-space: pre-wrap;
+    background: #070a12;
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    overflow: auto;
+    max-height: 280px;
+    color: #38bdf8;
+    font-family: monospace;
+  }
+
+  .badge {
+    font-size: 9px;
+    background: #1e293b;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--gold);
+    border: 1px solid var(--border-color);
+    float: right;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>BIXTONE ULTIMATE PRO</h1>
+  <p>BIXLABS BOYOLALI INDONESIA | 3 Layer Sebagai Prompt</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="openTab('voice')">TAB 1 VOICE</div>
+  <div class="tab" onclick="openTab('instrument')">TAB 2 INSTRUMENT</div>
+  <div class="tab" onclick="openTab('studio')">TAB 3 STUDIO</div>
+</div>
+
+<!-- TAB 1 VOICE -->
+<div id="voice" class="content active">
+  <div class="card-section">
+    <label>Generate Type <span class="badge">song / instrumental</span></label>
+    <select id="genType"><option value="song">Song</option><option value="instrumental">Instrumental</option></select>
+  </div>
+
+  <div class="card-section">
+    <div class="row">
+      <div><label>Duration</label><select id="duration"><option value="60">1 menit</option><option value="120">2 menit</option><option value="180" selected>3 menit</option><option value="240">4 menit</option><option value="300">5 menit</option><option value="360">6 menit</option><option value="420">7 menit</option><option value="480">8 menit</option></select></div>
+      <div><label>Tempo ON/OFF</label><select id="tempoOn"><option value="false">OFF (Auto)</option><option value="true">ON (50-200)</option></select></div>
+    </div>
+    <div id="bpmBox" style="margin-top:10px; display:none;">
+      <label id="bpmLabel">BPM 50-200</label><input id="bpm" type="number" min="50" max="200" value="120">
+    </div>
+  </div>
+
+  <div class="card-section">
+    <label>Vocal Gender</label><select id="vocalGender"><option value="female">Female</option><option value="male">Male</option><option value="duet">Duet</option></select>
+  </div>
+
+  <div class="card-section">
+    <label>Voice Character (Max 8) <span class="badge">Inspire by</span></label>
+    <div id="voiceChips" class="chip-container"></div>
+  </div>
+
+  <div class="card-section">
+    <label>Mood (Max 8) <span class="badge">Inspire by</span></label>
+    <div id="moodChips" class="chip-container"></div>
+  </div>
+
+  <div class="card-section">
+    <label>Microphone (Brand) <span class="badge">Inspire by</span></label>
+    <select id="mic">
+      <option>Neumann U87 style/inspire by Classic German condenser</option>
+      <option>Shure SM7B style/inspire by Broadcast dynamic</option>
+      <option>AKG C414 style/inspire by Austrian versatile</option>
+    </select>
+  </div>
+
+  <div class="card-section">
+    <label>Lyrics Manual</label><textarea id="lyrics" placeholder="Wujudkan mimpimu, ciptakan musik tanpa batas..."></textarea>
+  </div>
+</div>
+
+<!-- TAB 2 INSTRUMENT -->
+<div id="instrument" class="content">
+  <div class="card-section">
+    <label>Genre (Max 8) <span class="badge">Inspire by</span></label>
+    <div id="genreChips" class="chip-container"></div>
+  </div>
+
+  <div class="card-section">
+    <label>Amp (Max 4 series/parallel) <span class="badge">Inspire by</span></label>
+    <div id="ampChips" class="chip-container"></div>
+  </div>
+
+  <div class="card-section">
+    <label>Cab (Max 4) <span class="badge">Inspire by</span></label>
+    <div id="cabChips" class="chip-container"></div>
+  </div>
+
+  <div class="card-section">
+    <div class="row">
+      <div><label>Electric Guitar</label><select id="eg"><option>Fender Stratocaster style/inspire by American vintage</option><option>Gibson Les Paul style/inspire by Humbucker rock</option></select></div>
+      <div><label>Acoustic Guitar</label><select id="ag"><option>Yamaha FG800 style/inspire by Bright acoustic</option><option>Martin D-28 style/inspire by Dreadnought warm</option></select></div>
+    </div>
+  </div>
+
+  <div class="card-section">
+    <div class="row">
+      <div><label>Bass</label><select id="bass"><option>Fender Precision style/inspire by Vintage thump</option></select></div>
+      <div><label>Snare</label><select id="snare"><option>Ludwig Supraphonic style/inspire by Classic metal snare</option></select></div>
+    </div>
+  </div>
+
+  <div class="card-section">
+    <label>Cymbals</label><select id="cymbals"><option>Zildjian K Custom style/inspire by Dark crash</option></select>
+  </div>
+
+  <div class="card-section">
+    <label>Guitar FX (Max 12)</label><div id="gfxChips" class="chip-container"></div>
+  </div>
+
+  <div class="card-section">
+    <label>Bass FX (Max 10)</label><div id="bfxChips" class="chip-container"></div>
+  </div>
+
+  <div class="card-section">
+    <label>World Instruments (Max 8)</label><div id="worldChips" class="chip-container"></div>
+  </div>
+</div>
+
+<!-- TAB 3 STUDIO -->
+<div id="studio" class="content">
+  <div class="card-section">
+    <label>Mixer <span class="badge">Inspire by</span></label>
+    <select id="mixer">
+      <option>SSL G-Series style/inspire by Analog console warmth</option>
+      <option>Neve 1073 style/inspire by British warm preamp</option>
+    </select>
+  </div>
+
+  <div class="card-section">
+    <label>Mastering <span class="badge">Inspire by</span></label>
+    <select id="mastering">
+      <option>Ozone 11 style/inspire by Modern loudness maximizer</option>
+      <option>FabFilter Pro-L2 style/inspire by Transparent limiter</option>
+    </select>
+
+    <button class="main gold" onclick="buildPrompt()">GENERATE 3 LAYER PROMPT</button>
+  </div>
+
+  <div class="card-section">
+    <label>Hasil JSON Prompt (untuk openapi.yaml)</label>
+    <pre id="output">Klik tombol GENERATE di atas...</pre>
+    <button class="main" onclick="copyOutput()">COPY JSON</button>
+  </div>
+</div>
+
+<script>
+const voices = ["Warm Soprano style/inspire by smooth female","Bright style/inspire by pop vocal","Soulful style/inspire by R&B","Powerful style/inspire by rock belting","Soft Whisper style/inspire by intimate"];
+const moods = ["Romantic style/inspire by love song","Uplifting style/inspire by happy","Energetic style/inspire by dance","Melancholic style/inspire by sad","Epic style/inspire by cinematic"];
+const genres = ["Pop Rock style/inspire by Indonesian pop","Dangdut Modern style/inspire by koplo","Hip Hop style/inspire by trap","EDM style/inspire by festival","Jazz style/inspire by smooth"];
+const amps = ["Marshall JCM800 style/inspire by British rock stack","Fender Twin Reverb style/inspire by American clean","Mesa Boogie Dual Rectifier style/inspire by High gain"];
+const cabs = ["Marshall 1960A 4x12 style/inspire by British cab","Mesa Boogie Recto 4x12 style/inspire by American cab"];
+const gfx = ["Tube Screamer style/inspire by mid boost","Big Muff style/inspire by fuzz sustain","Delay style/inspire by analog delay","Reverb Hall style/inspire by large space"];
+const bfx = ["Compressor style/inspire by bass sustain","Octaver style/inspire by sub bass"];
+const world = ["Gamelan Indonesia style/inspire by Javanese metallophone","Sitar India style/inspire by drone string","Shakuhachi Japan style/inspire by bamboo flute"];
+
+function makeChips(id, list, max){
+  const el = document.getElementById(id); 
+  el.innerHTML = ''; 
+  let sel = [];
+  list.forEach(t => {
+    const s = document.createElement('span'); 
+    s.className = 'chip'; 
+    s.textContent = t;
+    s.onclick = () => {
+      if(s.classList.contains('sel')){ 
+        s.classList.remove('sel'); 
+        sel = sel.filter(x => x !== t); 
+      } else { 
+        if(sel.length >= max) return alert('Maksimal pilihan: ' + max); 
+        s.classList.add('sel'); 
+        sel.push(t); 
+      }
+      el.dataset.sel = JSON.stringify(sel);
+    };
+    el.appendChild(s);
+  });
+  el.dataset.sel = '[]';
+}
+
+makeChips('voiceChips', voices, 8); 
+makeChips('moodChips', moods, 8); 
+makeChips('genreChips', genres, 8);
+makeChips('ampChips', amps, 4); 
+makeChips('cabChips', cabs, 4); 
+makeChips('gfxChips', gfx, 12);
+makeChips('bfxChips', bfx, 10); 
+makeChips('worldChips', world, 8);
+
+function openTab(n){
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+  document.getElementById(n).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+document.getElementById('tempoOn').onchange = e => {
+  const on = e.target.value === 'true';
+  document.getElementById('bpmBox').style.display = on ? 'block' : 'none';
+};
+
+function getSel(id){ 
+  try { return JSON.parse(document.getElementById(id).dataset.sel || '[]'); } 
+  catch { return []; } 
+}
+
+function buildPrompt(){
+  const p = {
+    layer1_voice: {
+      generate_type: document.getElementById('genType').value,
+      durationSeconds: parseInt(document.getElementById('duration').value),
+      tempoEnabled: document.getElementById('tempoOn').value === 'true',
+      tempoBpm: document.getElementById('tempoOn').value === 'true' ? parseInt(document.getElementById('bpm').value) : null,
+      vocal_gender: document.getElementById('vocalGender').value,
+      voice_character: getSel('voiceChips'),
+      mood: getSel('moodChips'),
+      microphone: document.getElementById('mic').value,
+      lyrics_manual: document.getElementById('lyrics').value,
+      referencePolicyAccepted: true
+    },
+    layer2_instrument: {
+      genre: getSel('genreChips'),
+      amp: getSel('ampChips'),
+      cab: getSel('cabChips'),
+      electric_guitar: [document.getElementById('eg').value],
+      acoustic_guitar: [document.getElementById('ag').value],
+      bass: document.getElementById('bass').value,
+      snare: document.getElementById('snare').value,
+      cymbals: document.getElementById('cymbals').value,
+      guitar_fx: getSel('gfxChips'),
+      bass_fx: getSel('bfxChips'),
+      world_instruments: getSel('worldChips'),
+      structure_melody: ['intro 0:00-0:15', 'chorus tengah', 'outro akhir']
+    },
+    layer3_studio: {
+      mixer: document.getElementById('mixer').value,
+      mastering: document.getElementById('mastering').value
+    }
+  };
+  const finalReq = { 
+    prompt: p, 
+    seed: 0, 
+    modelId: 'bixtone-v1', 
+    durationSeconds: p.layer1_voice.durationSeconds, 
+    referencePolicyAccepted: true 
+  };
+  document.getElementById('output').textContent = JSON.stringify(finalReq, null, 2);
+}
+
+function copyOutput(){
+  navigator.clipboard.writeText(document.getElementById('output').textContent);
+  alert('JSON Prompt berhasil disalin! Silakan paste ke YouWare / openapi.yaml');
+}
+</script>
+</body>
+</html>
