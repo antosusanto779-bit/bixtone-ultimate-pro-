@@ -1,0 +1,13 @@
+{
+  "name": "bixtone-ultimate-pro-starter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Framework-agnostic validation and prompt builder for BIXTONE ULTIMATE PRO.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
