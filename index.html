@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIXTONE ULTIMATE PRO - By Bixlabs</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-wrapper">
+        <!-- Header Brand -->
+        <header class="brand-header">
+            <div class="logo-box">
+                <span class="logo-text">BIXTONE</span>
+                <span class="badge-pro">PRO</span>
+            </div>
+            <h2 class="sub-brand">ULTIMATE PRO</h2>
+            <p class="tagline">Wujudkan mimpimu dan ciptakan musik tanpa batas</p>
+            <div class="developer-tag">By Bixlabs Boyolali Indonesia</div>
+        </header>
+
+        <main class="studio-container">
+            <!-- Layer 1: Prompt Input & Genre -->
+            <section class="layer-card">
+                <div class="layer-title">
+                    <span class="layer-num">L1</span>
+                    <h3>Vocal & Track Concept Prompt</h3>
+                </div>
+                <textarea id="promptInput" placeholder="Ketik deskripsi lagu, contoh: Rock Metal drum beat, double bass pedal, tight 5.8 inch snare shell, epic synth solo 140 BPM..."></textarea>
+            </section>
+
+            <!-- Layer 2: Preset Pilihan cepat -->
+            <section class="layer-card">
+                <div class="layer-title">
+                    <span class="layer-num">L2</span>
+                    <h3>Instrumentation & Micro-Presets</h3>
+                </div>
+                <div class="preset-grid">
+                    <button class="preset-btn active" data-prompt="Heavy Rock & Metal drums with deep punchy snare and double pedal">Rock / Metal</button>
+                    <button class="preset-btn" data-prompt="Electronic EDM synth groove with 808 sub bass and fast hi-hats">Electronic</button>
+                    <button class="preset-btn" data-prompt="Chill Lo-Fi hip hop beat with warm acoustic drums and vinyl crackle">Lo-Fi Chill</button>
+                    <button class="preset-btn" data-prompt="Cinematic orchestral arrangement with epic brass and thunderous percussion">Cinematic</button>
+                </div>
+            </section>
+
+            <!-- Layer 3: Studio Master Configuration -->
+            <section class="layer-card">
+                <div class="layer-title">
+                    <span class="layer-num">L3</span>
+                    <h3>Studio Mixing & Audio Polish</h3>
+                </div>
+                <div class="control-row">
+                    <label for="bpmSelect">Tempo / BPM:</label>
+                    <select id="bpmSelect" class="studio-select">
+                        <option value="90 BPM">90 BPM (Chill / Slow)</option>
+                        <option value="120 BPM" selected>120 BPM (Standard)</option>
+                        <option value="140 BPM">140 BPM (Energetic)</option>
+                        <option value="160 BPM">160 BPM (Fast / High Energy)</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Action Button -->
+            <button id="generateBtn" class="generate-btn">
+                <span class="btn-glow"></span>
+                <span class="btn-text">GENERATE AI TRACK</span>
+            </button>
+
+            <!-- Status Indicator -->
+            <div id="statusBox" class="status-box hidden">
+                <div class="spinner"></div>
+                <p id="statusText">Memproses audio di Hugging Face Server...</p>
+            </div>
+
+            <!-- Audio Result Player -->
+            <section id="playerCard" class="layer-card hidden">
+                <div class="layer-title">
+                    <span class="layer-num">OUT</span>
+                    <h3>Mastered Audio Output</h3>
+                </div>
+                <audio id="audioPlayer" controls style="width: 100%; margin-top: 10px;"></audio>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <p>&copy; 2026 BIXTONE ULTIMATE PRO &bull; Engineered by Bixlabs, Boyolali, Central Java, Indonesia</p>
+        </footer>
+    </div>
+
+    <!-- Script Gradio Client JS -->
+    <script type="module" src="script.js"></script>
+</body>
+</html>
