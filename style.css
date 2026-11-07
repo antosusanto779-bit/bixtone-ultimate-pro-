@@ -1,0 +1,234 @@
+:root {
+    --bg-dark: #05070c;
+    --card-bg: #0f1420;
+    --card-border: #1e293b;
+    --accent-blue: #2563eb;
+    --accent-cyan: #38bdf8;
+    --accent-gold: #f59e0b;
+    --text-silver: #e2e8f0;
+    --text-muted: #64748b;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-silver);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 12px;
+}
+
+.app-wrapper {
+    max-width: 550px;
+    margin: 0 auto;
+}
+
+/* Header Styling */
+.brand-header {
+    text-align: center;
+    padding: 20px 10px;
+    background: linear-gradient(180deg, rgba(15,20,32,0.8) 0%, rgba(5,7,12,1) 100%);
+    border-radius: 16px;
+    border: 1px solid var(--card-border);
+    margin-bottom: 16px;
+}
+
+.logo-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.logo-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #ffffff 0%, var(--accent-cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.badge-pro {
+    background: linear-gradient(135deg, var(--accent-gold), #d97706);
+    color: #000;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 6px;
+}
+
+.sub-brand {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    color: var(--accent-gold);
+    letter-spacing: 3px;
+    margin-top: 2px;
+}
+
+.tagline {
+    font-size: 0.85rem;
+    color: var(--accent-cyan);
+    margin-top: 8px;
+    font-style: italic;
+}
+
+.developer-tag {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Card Section */
+.layer-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 12px;
+}
+
+.layer-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.layer-num {
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--accent-cyan);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.layer-title h3 {
+    font-size: 0.9rem;
+    color: var(--text-silver);
+}
+
+textarea {
+    width: 100%;
+    height: 90px;
+    background: #080b12;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    color: #fff;
+    padding: 10px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    resize: none;
+    outline: none;
+}
+
+textarea:focus {
+    border-color: var(--accent-cyan);
+}
+
+/* Grid Preset */
+.preset-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.preset-btn {
+    background: #080b12;
+    border: 1px solid var(--card-border);
+    color: var(--text-silver);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-align: center;
+}
+
+.preset-btn.active {
+    border-color: var(--accent-gold);
+    background: rgba(245, 158, 11, 0.12);
+    color: var(--accent-gold);
+}
+
+/* Studio Select */
+.control-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.control-row label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.studio-select {
+    background: #080b12;
+    color: var(--text-silver);
+    border: 1px solid var(--card-border);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    outline: none;
+}
+
+/* Primary Button */
+.generate-btn {
+    position: relative;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin: 8px 0 16px 0;
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+}
+
+/* Status & Loading Spinner */
+.status-box {
+    text-align: center;
+    padding: 15px;
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+}
+
+.spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(245, 158, 11, 0.2);
+    border-top: 3px solid var(--accent-gold);
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.hidden { display: none; }
+
+.app-footer {
+    text-align: center;
+    padding: 15px 0;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
