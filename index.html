@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIXTONE ULTIMATE PRO - Music AI Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <svg width="60" height="60" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="46" fill="#0f2b48" stroke="#ffd700" stroke-width="3"/>
+        <path d="M30,70 L30,30 L55,30 C65,30 65,48 55,48 L30,48 M55,48 C68,48 68,70 55,70 L30,70" fill="none" stroke="#ffd700" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+        <polygon points="72,40 85,50 72,60" fill="#ffffff"/>
+      </svg>
+      <div>
+        <div class="brand-title">BIXTONE ULTIMATE PRO</div>
+        <div class="brand-sub">MUSIC AI GENERATOR BY BIXLABS BOYOLALI INDONESIA</div>
+      </div>
+    </div>
+    <div class="slogan">"WUJUDKAN MIMPIMU DAN CIPTAKAN MUSIK TANPA BATAS"</div>
+  </header>
+
+  <div class="controls-bar">
+    <div><span>Mode Editor: </span><strong id="mode-indicator" style="color:var(--accent-gold);">Pro / Expert Studio</strong></div>
+    <div class="mode-toggle">
+      <button class="mode-btn" onclick="setMode('lite')">Lite / Standard</button>
+      <button class="mode-btn active" onclick="setMode('pro')">Expert / Pro</button>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="left-col">
+      <div class="card">
+        <div class="card-title">1. Konfigurasi Dasar Lagu</div>
+        <div class="form-group"><label>(A) Tipe Output Generation</label><select id="type-select"><option value="full">Lagu Utuh (Vokal + Instrumental)</option><option value="instrumental">Instrumental Only (Tanpa Vokal)</option></select></div>
+        <div class="grid-2">
+          <div class="form-group"><label>(@#) Durasi (1 - 8 Menit)</label><select id="duration-select"><option value="1">1 Menit</option><option value="3" selected>3 Menit</option><option value="5">5 Menit</option><option value="8">8 Menit</option></select></div>
+          <div class="form-group"><label>(@#) Tempo (BPM)</label><div style="display:flex; gap:10px; align-items:center;"><input type="checkbox" id="bpm-toggle" onchange="toggleBPM(this)"><input type="number" id="bpm-input" min="50" max="200" value="120" disabled style="width:100px;"></div></div>
+        </div>
+        <div class="form-group"><label>(A) Lirik Lagu</label><textarea id="lyrics-input" rows="3" placeholder="Ketik lirik..."></textarea></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">2. Konfigurasi Vokal & Mood <span>(Layer 1 Prompt)</span></div>
+        <div class="grid-2">
+          <div class="form-group"><label>(B) Tipe Vokal</label><select id="vocal-type"><option value="male">Solo Male</option><option value="female">Solo Female</option><option value="duet-mf">Duet (Male-Female)</option><option value="duet-mm">Duet (Male-Male)</option><option value="duet-ff">Duet (Female-Female)</option></select></div>
+          <div class="form-group expert-only"><label>(E) Efek Vokal (Tepat 30 Brand - Max 1)</label><select id="vocal-effect"></select></div>
+        </div>
+        <div class="form-group"><label>(F) Genre Musik (Tepat 150 Pilihan - Max 8)</label><div class="chip-container" id="genre-chips"></div></div>
+        <div class="form-group"><label>(D) Mood Lagu (Tepat 50 Pilihan - Max 8)</label><div class="chip-container" id="mood-chips"></div></div>
+        <div class="form-group expert-only"><label>(C) Karakter Vokal (Tepat 50 Pilihan - Max 8)</label><div class="chip-container" id="voice-chips"></div></div>
+      </div>
+
+      <div class="card expert-only">
+        <div class="card-title">3. Studio Rig Hardware & Instrumentation <span>(Layer 2 Prompt)</span></div>
+        <div class="grid-2">
+          <div class="form-group"><label>(G) Microphone (Tepat 30 Brand Real - Max 1)</label><select id="mic-select"></select></div>
+          <div class="form-group"><label>(L) Snare Drum (Tepat 50 Brand Real - Max 1)</label><select id="snare-select"></select></div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group"><label>(M) Cymbals (Tepat 30 Brand Real - Max 1)</label><select id="cymbal-select"></select></div>
+          <div class="form-group"><label>(K) Bass Guitar (Tepat 500 Brand Real - Max 1)</label><select id="bass-select"></select></div>
+        </div>
+        <div class="form-group"><label>(J) Gitar Elektrik (Tepat 50 Brand Real - Multiple)</label><select id="guitar-elec-select" multiple style="height:100px;"></select></div>
+        <div class="form-group"><label>(J) Gitar Akustik (Tepat 50 Brand Real - Multiple)</label><select id="guitar-acou-select" multiple style="height:100px;"></select></div>
+        <div class="grid-2">
+          <div class="form-group"><label>(H) Amplifier (Tepat 100 Brand Real - Max 4)</label><select id="amp-select" multiple style="height:100px;"></select></div>
+          <div class="form-group"><label>(I) Cabinet (Tepat 100 Brand Real - Max 4)</label><select id="cab-select" multiple style="height:100px;"></select></div>
+        </div>
+        <div class="form-group"><label>(P) Efek Gitar (Tepat 200 Brand Real - Max 12)</label><div class="chip-container" id="fx-guitar-chips"></div></div>
+        <div class="form-group"><label>(Q) Efek Bass (Tepat 100 Brand Real - Max 10)</label><div class="chip-container" id="fx-bass-chips"></div></div>
+        <div class="form-group"><label>(R) Alat Musik Dunia (Tepat 150 Pilihan - Max 8)</label><div class="chip-container" id="world-inst-chips"></div></div>
+      </div>
+
+      <div class="card expert-only">
+        <div class="card-title">4. Mixing Console & Mastering Engine <span>(Layer 3 Prompt)</span></div>
+        <div class="grid-2">
+          <div class="form-group"><label>(N) Mixer Console (Tepat 30 Brand Real)</label><select id="mixer-select"></select></div>
+          <div class="form-group"><label>(O) Mastering Hardware (Tepat 30 Brand Real)</label><select id="mastering-select"></select></div>
+        </div>
+        <div class="form-group"><label>(#) Dialek & Sound Engine</label><select id="dialect-select"><option value="id_std">Bahasa Indonesia Standard</option><option value="jv_ngoko">Bahasa Jawa Ngoko</option><option value="jv_boyolali">Dialek Boyolali / Solo Raya</option><option value="jv_banyumasan">Dialek Banyumasan (Ngapak)</option></select></div>
+        <div class="disclaimer"><strong>Disclaimer:</strong> Seluruh brand hardware menggunakan referensi gaya akustik (Inspired By / Style Reference) dan tidak berafiliasi resmi.</div>
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="card"><button class="btn btn-primary" onclick="generateMusic()">⚡ GENERATE MUSIC AI NOW</button></div>
+      <div class="card">
+        <div class="card-title">(T) Visualisasi Architecture 3-Layer</div>
+        <div class="layer-box layer-1"><div class="layer-head">LAYER 1: VOCAL & STYLES</div><div id="prompt-layer-1" style="font-size:0.75rem; color:var(--accent-silver-light);">Ready</div></div>
+        <div class="layer-box layer-2"><div class="layer-head">LAYER 2: INSTRUMENTATION & RIGS</div><div id="prompt-layer-2" style="font-size:0.75rem; color:var(--accent-silver-light);">Ready</div></div>
+        <div class="layer-box layer-3"><div class="layer-head">LAYER 3: MIXING & MASTERING</div><div id="prompt-layer-3" style="font-size:0.75rem; color:var(--accent-silver-light);">Ready</div></div>
+      </div>
+      <div class="card player-card">
+        <div class="card-title">(Y) BIXTONE Audio Player</div>
+        <div class="waveform" id="waveform"></div>
+        <div class="grid-2" style="margin-bottom:15px;">
+          <button class="btn btn-secondary" onclick="togglePlay()">▶ Play / Pause</button>
+          <button class="btn btn-outline" onclick="applyPerfection()">(U) Perfection</button>
+        </div>
+        <div class="grid-2" style="margin-bottom:10px;">
+          <button class="btn btn-outline" style="font-size:0.75rem;" onclick="processStem('vocal')">(V) Remove Vocal</button>
+          <button class="btn btn-outline" style="font-size:0.75rem;" onclick="recordOverdub('vocal')">(W) Record Overdub</button>
+        </div>
+        <div class="grid-2">
+          <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="downloadAudio()">💾 (X) Download</button>
+          <button class="btn btn-primary" style="font-size:0.8rem;" onclick="sharePlatform()">🌐 (Z) Share All</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
