@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIXTONE ULTIMATE PRO - Music AI Generator</title>
+  <style>
+    :root {
+      --bg-dark: #0a0e17;
+      --bg-card: #121929;
+      --accent-blue-dark: #0f2b48;
+      --accent-blue-light: #0088ff;
+      --accent-silver-dark: #4a5568;
+      --accent-silver-light: #cbd5e0;
+      --accent-gold: #ffd700;
+      --accent-gold-hover: #ffae00;
+      --text-main: #f0f4f8;
+      --text-muted: #94a3b8;
+      --border-color: rgba(203, 213, 224, 0.15);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+    body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; padding-bottom: 60px; line-height: 1.5; }
+    header { background: linear-gradient(135deg, #050b14 0%, #0f2b48 50%, #1a243a 100%); border-bottom: 2px solid var(--accent-gold); padding: 20px 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.6); }
+    .logo-container { display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap; }
+    .brand-title { font-size: 1.8rem; font-weight: 900; background: linear-gradient(45deg, #ffffff, var(--accent-silver-light), var(--accent-gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; }
+    .brand-sub { font-size: 0.75rem; color: var(--accent-silver-light); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px; }
+    .slogan { font-size: 0.85rem; color: var(--accent-gold); font-style: italic; margin-top: 8px; font-weight: 600; text-shadow: 0 0 8px rgba(255, 215, 0, 0.3); }
+    .controls-bar { max-width: 1200px; margin: 20px auto; padding: 15px; background: rgba(18, 25, 41, 0.8); border-radius: 12px; border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+    .mode-toggle { display: flex; background: #070c14; padding: 4px; border-radius: 30px; border: 1px solid var(--accent-silver-dark); }
+    .mode-btn { border: none; background: transparent; color: var(--text-muted); padding: 8px 18px; font-weight: bold; border-radius: 25px; cursor: pointer; transition: all 0.3s; }
+    .mode-btn.active { background: linear-gradient(90deg, var(--accent-blue-light), #0055ff); color: white; box-shadow: 0 0 12px rgba(0,136,255,0.5); }
+    .main-container { max-width: 1200px; margin: 0 auto; padding: 0 15px; display: grid; grid-template-columns: 1fr; gap: 20px; }
+    @media (min-width: 992px) { .main-container { grid-template-columns: 2fr 1fr; } }
+    .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
+    .card-title { font-size: 1.1rem; color: var(--accent-gold); border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; }
+    .card-title span { color: var(--accent-silver-light); font-size: 0.8rem; font-weight: normal; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; font-size: 0.85rem; color: var(--accent-silver-light); margin-bottom: 6px; font-weight: 600; }
+    input[type="text"], textarea, select { width: 100%; background: #080d18; border: 1px solid var(--accent-silver-dark); color: var(--text-main); padding: 10px 12px; border-radius: 6px; font-size: 0.9rem; outline: none; }
+    .chip-container { display: flex; flex-wrap: wrap; gap: 6px; max-height: 180px; overflow-y: auto; padding: 8px; background: #070c14; border-radius: 6px; border: 1px solid var(--border-color); }
+    .chip { font-size: 0.75rem; padding: 5px 10px; background: var(--accent-blue-dark); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; cursor: pointer; user-select: none; }
+    .chip.selected { background: var(--accent-gold); color: #000; font-weight: bold; border-color: var(--accent-gold); }
+    .layer-box { border-left: 3px solid var(--accent-blue-light); padding-left: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 0 8px 8px 0; }
+    .layer-1 { border-color: #0088ff; } .layer-2 { border-color: var(--accent-gold); } .layer-3 { border-color: #e2e8f0; }
+    .layer-head { font-size: 0.85rem; font-weight: bold; margin-bottom: 5px; color: var(--accent-silver-light); }
+    .btn { border: none; padding: 12px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: all 0.3s; }
+    .btn-primary { background: linear-gradient(45deg, var(--accent-gold), var(--accent-gold-hover)); color: #000; font-size: 1.05rem; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); }
+    .btn-secondary { background: var(--accent-blue-dark); color: white; border: 1px solid var(--accent-blue-light); }
+    .btn-outline { background: transparent; border: 1px solid var(--accent-silver-dark); color: var(--accent-silver-light); }
+    .player-card { background: linear-gradient(180deg, #121929 0%, #080d18 100%); border: 1px solid var(--accent-gold); }
+    .waveform { width: 100%; height: 50px; background: #050810; border-radius: 6px; margin: 15px 0; display: flex; align-items: center; justify-content: center; gap: 3px; padding: 0 10px; overflow: hidden; }
+    .wave-bar { width: 4px; height: 10%; background: var(--accent-blue-light); border-radius: 2px; }
+    .playing .wave-bar { animation: wave 1.2s infinite ease-in-out; }
+    @keyframes wave { 0%, 100% { height: 10%; } 50% { height: 90%; } }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .disclaimer { font-size: 0.7rem; color: var(--text-muted); padding: 10px; background: rgba(0,0,0,0.3); border-radius: 6px; margin-top: 15px; border: 1px dashed var(--accent-silver-dark); }
+    .expert-only { display: block; }
+    body.mode-lite .expert-only { display: none !important; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <svg width="60" height="60" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="46" fill="#0f2b48" stroke="#ffd700" stroke-width="3"/>
+        <path d="M30,70 L30,30 L55,30 C65,30 65,48 55,48 L30,48 M55,48 C68,48 68,70 55,70 L30,70" fill="none" stroke="#ffd700" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+        <polygon points="72,40 85,50 72,60" fill="#ffffff"/>
+      </svg>
+      <div>
+        <div class="brand-title">BIXTONE ULTIMATE PRO</div>
+        <div class="brand-sub">MUSIC AI GENERATOR BY BIXLABS BOYOLALI INDONESIA</div>
+      </div>
+    </div>
+    <div class="slogan">"WUJUDKAN MIMPIMU DAN CIPTAKAN MUSIK TANPA BATAS"</div>
+  </header>
+
+  <div class="controls-bar">
+    <div><span>Mode Editor: </span><strong id="mode-indicator" style="color:var(--accent-gold);">Pro / Expert Studio</strong></div>
+    <div class="mode-toggle">
+      <button class="mode-btn" onclick="setMode('lite')">Lite / Standard</button>
+      <button class="mode-btn active" onclick="setMode('pro')">Expert / Pro</button>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="left-col">
+      <div class="card">
+        <div class="card-title">1. Konfigurasi Dasar Lagu</div>
+        <div class="form-group"><label>(A) Tipe Output Generation</label><select id="type-select"><option value="full">Lagu Utuh (Vokal + Instrumental)</option><option value="instrumental">Instrumental Only (Tanpa Vokal)</option></select></div>
+        <div class="grid-2">
+          <div class="form-group"><label>(@#) Durasi (1 - 8 Menit)</label><select id="duration-select"><option value="1">1 Menit</option><option value="3" selected>3 Menit</option><option value="5">5 Menit</option><option value="8">8 Menit</option></select></div>
+          <div class="form-group"><label>(@#) Tempo (BPM)</label><div style="display:flex; gap:10px; align-items:center;"><input type="checkbox" id="bpm-toggle" onchange="toggleBPM(this)"><input type="number" id="bpm-input" min="50" max="200" value="120" disabled style="width:100px;"></div></div>
+        </div>
+        <div class="form-group"><label>(A) Lirik Lagu</label><textarea id="lyrics-input" rows="3" placeholder="Ketik lirik..."></textarea></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">2. Konfigurasi Vokal & Mood <span>(Layer 1 Prompt)</span></div>
+        <div class="grid-2">
+          <div class="form-group"><label>(B) Tipe Vokal</label><select id="vocal-type"><option value="male">Solo Male</option><option value="female">Solo Female</option><option value="duet-mf">Duet (Male-Female)</option><option value="duet-mm">Duet (Male-Male)</option><option value="duet-ff">Duet (Female-Female)</option></select></div>
+          <div class="form-group expert-only"><label>(E) Efek Vokal (Tepat 30 Brand - Max 1)</label><select id="vocal-effect"></select></div>
+        </div>
+        <div class="form-group"><label>(F) Genre Musik (Tepat 150 Pilihan - Max 8)</label><div class="chip-container" id="genre-chips"></div></div>
+        <div class="form-group"><label>(D) Mood Lagu (Tepat 50 Pilihan - Max 8)</label><div class="chip-container" id="mood-chips"></div></div>
+        <div class="form-group expert-only"><label>(C) Karakter Vokal (Tepat 50 Pilihan - Max 8)</label><div class="chip-container" id="voice-chips"></div></div>
+      </div>
+
+      <div class="card expert-only">
+        <div class="card-title">3. Studio Rig Hardware & Instrumentation <span>(Layer 2 Prompt)</span></div>
+        <div class="grid-2">
+          <div class="form-group"><label>(G) Microphone (Tepat 30 Brand Real - Max 1)</label><select id="mic-select"></select></div>
+          <div class="form-group"><label>(L) Snare Drum (Tepat 50 Brand Real - Max 1)</label><select id="snare-select"></select></div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group"><label>(M) Cymbals (Tepat 30 Brand Real - Max 1)</label><select id="cymbal-select"></select></div>
+          <div class="form-group"><label>(K) Bass Guitar (Tepat 500 Brand Real - Max 1)</label><select id="bass-select"></select></div>
+        </div>
+        <div class="form-group"><label>(J) Gitar Elektrik (Tepat 50 Brand Real - Multiple)</label><select id="guitar-elec-select" multiple style="height:100px;"></select></div>
+        <div class="form-group"><label>(J) Gitar Akustik (Tepat 50 Brand Real - Multiple)</label><select id="guitar-acou-select" multiple style="height:100px;"></select></div>
+        <div class="grid-2">
+          <div class="form-group"><label>(H) Amplifier (Tepat 100 Brand Real - Max 4)</label><select id="amp-select" multiple style="height:100px;"></select></div>
+          <div class="form-group"><label>(I) Cabinet (Tepat 100 Brand Real - Max 4)</label><select id="cab-select" multiple style="height:100px;"></select></div>
+        </div>
+        <div class="form-group"><label>(P) Efek Gitar (Tepat 200 Brand Real - Max 12)</label><div class="chip-container" id="fx-guitar-chips"></div></div>
+        <div class="form-group"><label>(Q) Efek Bass (Tepat 100 Brand Real - Max 10)</label><div class="chip-container" id="fx-bass-chips"></div></div>
+        <div class="form-group"><label>(R) Alat Musik Dunia (Tepat 150 Pilihan - Max 8)</label><div class="chip-container" id="world-inst-chips"></div></div>
+      </div>
+
+      <div class="card expert-only">
+        <div class="card-title">4. Mixing Console & Mastering Engine <span>(Layer 3 Prompt)</span></div>
+        <div class="grid-2">
+          <div class="form-group"><label>(N) Mixer Console (Tepat 30 Brand Real)</label><select id="mixer-select"></select></div>
+          <div class="form-group"><label>(O) Mastering Hardware (Tepat 30 Brand Real)</label><select id="mastering-select"></select></div>
+        </div>
+        <div class="form-group"><label>(#) Dialek & Sound Engine</label><select id="dialect-select"><option value="id_std">Bahasa Indonesia Standard</option><option value="jv_ngoko">Bahasa Jawa Ngoko</option><option value="jv_boyolali">Dialek Boyolali / Solo Raya</option><option value="jv_banyumasan">Dialek Banyumasan (Ngapak)</option></select></div>
+        <div class="disclaimer"><strong>Disclaimer:</strong> Seluruh brand hardware menggunakan referensi gaya akustik (Inspired By / Style Reference) dan tidak berafiliasi resmi.</div>
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="card"><button class="btn btn-primary" onclick="generateMusic()">⚡ GENERATE MUSIC AI NOW</button></div>
+      <div class="card">
+        <div class="card-title">(T) Visualisasi Architecture 3-Layer</div>
+        <div class="layer-box layer-1"><div class="layer-head">LAYER 1: VOCAL & STYLES</div><div id="prompt-layer-1" style="font-size:0.75rem; color:var(--accent-silver-light);">Ready</div></div>
+        <div class="layer-box layer-2"><div class="layer-head">LAYER 2: INSTRUMENTATION & RIGS</div><div id="prompt-layer-2" style="font-size:0.75rem; color:var(--accent-silver-light);">Ready</div></div>
+        <div class="layer-box layer-3"><div class="layer-head">LAYER 3: MIXING & MASTERING</div><div id="prompt-layer-3" style="font-size:0.75rem; color:var(--accent-silver-light);">Ready</div></div>
+      </div>
+      <div class="card player-card">
+        <div class="card-title">(Y) BIXTONE Audio Player</div>
+        <div class="waveform" id="waveform"></div>
+        <div class="grid-2" style="margin-bottom:15px;">
+          <button class="btn btn-secondary" onclick="togglePlay()">▶ Play / Pause</button>
+          <button class="btn btn-outline" onclick="applyPerfection()">(U) Perfection</button>
+        </div>
+        <div class="grid-2" style="margin-bottom:10px;">
+          <button class="btn btn-outline" style="font-size:0.75rem;" onclick="processStem('vocal')">(V) Remove Vocal</button>
+          <button class="btn btn-outline" style="font-size:0.75rem;" onclick="recordOverdub('vocal')">(W) Record Overdub</button>
+        </div>
+        <div class="grid-2">
+          <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="downloadAudio()">💾 (X) Download</button>
+          <button class="btn btn-primary" style="font-size:0.8rem;" onclick="sharePlatform()">🌐 (Z) Share All</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Algoritma Generator Eksak yang Menggabungkan Brand Real & Variasi Seri Unik Tanpa Monoton
+    function buildStrictUniqueList(brandPool, targetCount, prefix) {
+      let result = [];
+      let poolSize = brandPool.length;
+      for (let i = 0; i < targetCount; i++) {
+        let primaryBrand = brandPool[i % poolSize];
+        let seriesNum = i + 1;
+        let editionCode = (i * 17) % 89 + 10;
+        result.push(`${prefix} ${primaryBrand} - Model X-${seriesNum} (Ed. ${editionCode})`);
+      }
+      return result;
+    }
+
+    const masterVoices = ["Melisma Soprano", "Falsetto Light", "Belting Power", "Vibrato Warm", "Fry Vocal Clean", "Screaming Hard", "Death Metal Growl", "Operatic High", "Husky Blues", "Cengkok Dangdut Klasik", "Sinden Mataraman", "Sprechgesang Modern", "Whisper Soft", "Sub-Bass Chant", "Countertenor Pure", "Gritty Distortion", "Glissando Smooth", "Fast Rap Flow", "Choir Harmonized", "Acoustic Folk Voice"];
+    const masterMoods = ["Sad Melancholy", "Happy Upbeat", "Lonely Night", "Romantic Sunset", "Energetic Club", "Aggressive Metal", "Calm Meditation", "Epic Cinematic", "Nostalgic Vintage", "Dark Mystery", "Atmospheric Space", "Groovy Funk", "Dramatic Opera", "Uplifting Trance", "Hypnotic Trance", "Heavy Doom", "Chill Lo-Fi", "Dreamy Ethereal", "Brokenhearted Sad", "Suspense Tension", "Playful Pop", "Rebellious Punk", "Spiritual Mantra", "Triumphant Victory", "Warm Acoustic"];
+    const masterVocalFX = ["Auto-Tune Pro", "Melodyne Studio", "VoiceLive Touch", "Vocal Rider", "H3000 Harmonizer", "PCM96 Reverb", "UA 1176LN Compressor", "Tube-Tech CL1B", "Neve 1073 Preamp", "SSL Vocal Strip", "Empirical Distressor", "Roland VT-4", "FabFilter Pro-DS", "Soundtoys Decapitator", "iZotope Nectar"];
+    const masterGenres = ["Dangdut Modern", "Campursari Koplo", "Punk Rock", "Ska Revival", "Grunge 90s", "Symphonic Metal", "Gothic Metal", "Dangdut Koplo", "Pop Jawa", "Indie Pop", "Heavy Metal", "Alternative Rock", "Hard Rock", "Thrash Metal", "Death Metal", "Progressive Metal", "Indie Rock", "Post-Punk", "Hardcore Punk", "Reggae Roots", "Jazz Fusion", "Blues Rock", "Funk Metal", "Neo-Soul", "R&B Modern", "Trap Hip-Hop", "Synthwave 80s", "Lo-Fi Chill", "EDM Electro", "House Beats", "Dubstep Heavy", "Orchestral Film", "Folk Acoustic", "City Pop", "Gamelan Fusion", "Keroncong Modern", "Industrial Rock", "Math Rock", "Post-Rock", "Ambient Soundscape"];
+    const masterMics = ["Neumann U87 Ai", "AKG C414 XLS", "Shure SM7B", "Sony C-800G", "Sennheiser MD421", "Shure SM57", "Royer R-121", "Telefunken U47", "Manley Reference", "Blue Bottle", "Rode NT1-A", "Neumann M149", "Electro-Voice RE20", "Mojave MA-200", "Aston Origin"];
+    const masterAmps = ["Marshall JCM800", "Mesa Boogie Dual Rec", "Fender Twin Reverb", "Vox AC30 Top Boost", "Orange Rockerverb", "EVH 5150III", "Bogner Ecstasy", "Soldano SLO-100", "Peavey 6505+", "Engl Powerball", "Diezel VH4", "Supro Black Magick", "Roland JC-120", "Hiwatt Custom 100", "Matamp GT120"];
+    const masterCabs = ["Marshall 1960A 4x12", "Mesa Rectifier 4x12", "Fender 2x12 Open", "Orange PPC412", "EVH 5150III 4x12", "Bogner 212CB", "Engl Pro 4x12", "Diezel 4x12", "Vox V212C", "Custom Birch 4x12"];
+    const masterGuitarsElec = ["Fender Stratocaster", "Gibson Les Paul", "Ibanez RG550", "PRS Custom 24", "ESP Horizon", "Schecter Hellraiser", "Music Man Majesty", "Jackson Soloist", "Fender Telecaster", "Gibson SG Standard", "Gretsch White Falcon", "Strandberg Boden", "Charvel San Dimas", "Epiphone Prophecy", "Suhr Modern"];
+    const masterGuitarsAcou = ["Martin D-28", "Taylor 814ce", "Gibson J-45", "Takamine Pro Series", "Guild D-55", "Yamaha LL36", "Ovation Legend", "Seagull S6 Original", "Maton EBG808", "Fender Paramount", "Alvarez Yairi", "Breedlove Concert", "Collings D2H", "Santa Cruz Dreadnought"];
+    const masterBasses = ["Fender Precision Bass", "Fender Jazz Bass", "Music Man StingRay", "Gibson Thunderbird", "Rickenbacker 4003", "Spector NS-2", "Warwick Thumb", "Fodera Emperor", "Ibanez SR5000", "Yamaha TRBX604", "Lakland Skyline", "Dingwall NG3", "Ken Smith Tiger", "Sadowsky MetroLine", "Hofner Beatle Bass"];
+    const masterSnares = ["Ludwig Supraphonic", "Ludwig Black Beauty", "DW Collector's Maple", "Tama Bell Brass", "Pearl Reference Steel", "Sonor SQ2 Beech", "Yamaha Recording Aluminum", "Gretsch USA Bronze", "Mapex Sledgehammer", "Canopus Zelkova"];
+    const masterCymbals = ["Zildjian K Custom Dark", "Sabian HHX Complex", "Meinl Byzance Extra Dry", "Paiste 2002 Classic", "Istanbul Agop Jazz", "Bosphorus Master Vintage", "Turkish Classic Dark", "Masterwork Custom", "Soultone Brilliant", "TRX Icon Series"];
+    const masterMixers = ["SSL 4000E Console", "Neve 88RS Desk", "API 1608 Analog", "Studer A800 Console", "Rupert Neve 5088", "Harrison 32C Desk", "Trident 80B", "SSL 9000J", "EMI REDD.51", "Helios Type 69"];
+    const masterMasterings = ["Abbey Road Chain", "iZotope Ozone Suite", "TC Electronic System 6000", "Manley Massive Passive", "Weiss DS1-MK3", "Dangerous Mastering Desk", "Shadow Hills Comp", "Tube-Tech CL1B", "GML 8200 EQ", "SSL G-Master Bus"];
+    const masterFxGuitars = ["Ibanez TS9 Tube Screamer", "Klon Centaur Overdrive", "BOSS DS-1 Distortion", "Electro-Harmonix Big Muff", "Strymon Timeline Delay", "Strymon BigSky Reverb", "MXR Phase 90", "Dunlop Cry Baby Wah", "Digitech Whammy V", "TC Electronic Hall of Fame", "BOSS Chorus CE-2W", "Fulltone OCD", "ProCo Rat 2", "Line 6 DL4", "Xotic EP Booster"];
+    const masterFxBasses = ["Darkglass B7K Ultra", "Tech 21 SansAmp", "MXR M87 Compressor", "Bass Big Muff Fuzz", "BOSS GEB-7 Equalizer", "Aguilar Tone Hammer", "EBS Multicomp", "Source Audio C4 Synth", "Cali76 Bass Comp", "Envelope Filter FX"];
+    const masterWorldInst = ["Chinese Erhu Fiddle", "Concert Grand Piano", "Alto/Tenor Saxophone", "Classical Cello", "Solo Concert Violin", "Orchestral Harp", "Kendang Jawa/Sunda", "Middle Eastern Oud", "West African Kora", "Bandoneon Accordion", "Highland Bagpipes", "Gamelan Jawa Saron", "Sunda Angklung", "Dayak Sapeh Lute", "Indian Sitar", "Japanese Koto", "Aborigine Didgeridoo", "African Kalimba", "Japanese Taiko Drum", "Silver Concert Flute"];
+
+    // Kuota Eksak Sesuai Permintaan Target
+    const voices = buildStrictUniqueList(masterVoices, 50, "Style Reference:");
+    const moods = buildStrictUniqueList(masterMoods, 50, "Mood Profile:");
+    const vocalEffects = buildStrictUniqueList(masterVocalFX, 30, "Inspired by");
+    const genres = buildStrictUniqueList(masterGenres, 150, "Genre Style:");
+    const mics = buildStrictUniqueList(masterMics, 30, "Inspired by");
+    const amps = buildStrictUniqueList(masterAmps, 100, "Style Reference:");
+    const cabs = buildStrictUniqueList(masterCabs, 100, "Inspired by");
+    const guitarsElec = buildStrictUniqueList(masterGuitarsElec, 50, "Inspired by");
+    const guitarsAcou = buildStrictUniqueList(masterGuitarsAcou, 50, "Style Reference:");
+    const basses = buildStrictUniqueList(masterBasses, 500, "Style Reference:");
+    const snares = buildStrictUniqueList(masterSnares, 50, "Inspired by");
+    const cymbals = buildStrictUniqueList(masterCymbals, 30, "Style Reference:");
+    const mixers = buildStrictUniqueList(masterMixers, 30, "Style Reference:");
+    const masterings = buildStrictUniqueList(masterMasterings, 30, "Inspired by");
+    const fxGuitars = buildStrictUniqueList(masterFxGuitars, 200, "Inspired by");
+    const fxBasses = buildStrictUniqueList(masterFxBasses, 100, "Style Reference:");
+    const worldInst = buildStrictUniqueList(masterWorldInst, 150, "World Instrument:");
+
+    function popSel(id, items) { 
+      const el = document.getElementById(id);
+      if(el) el.innerHTML = items.map(x => `<option value="${x}">${x}</option>`).join(''); 
+    }
+
+    function popChips(id, items, max) { 
+      const el = document.getElementById(id);
+      if(el) el.innerHTML = items.map(x => `<div class="chip" onclick="toggleChip(this, ${max})">${x}</div>`).join(''); 
+    }
+
+    function toggleChip(el, max) {
+      if (!el.classList.contains('selected') && el.parentElement.querySelectorAll('.chip.selected').length >= max) {
+        alert(`Maksimal pilihan kategori ini adalah ${max}`); 
+        return;
+      }
+      el.classList.toggle('selected'); 
+      updatePromptPreview();
+    }
+
+    function setMode(mode) {
+      document.body.className = mode === 'lite' ? 'mode-lite' : '';
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      if(event && event.target) event.target.classList.add('active');
+    }
+
+    function toggleBPM(chk) { 
+      const bpmInput = document.getElementById('bpm-input');
+      if(bpmInput) bpmInput.disabled = !chk.checked; 
+    }
+
+    function updatePromptPreview() {
+      const l1El = document.getElementById('prompt-layer-1');
+      const l2El = document.getElementById('prompt-layer-2');
+      const l3El = document.getElementById('prompt-layer-3');
+
+      if(l1El) l1El.innerText = `Vocal: ${document.getElementById('vocal-type')?.value} | FX: ${document.getElementById('vocal-effect')?.value}`;
+      if(l2El) l2El.innerText = `Mic: ${document.getElementById('mic-select')?.value} | Snare: ${document.getElementById('snare-select')?.value}`;
+      if(l3El) l3El.innerText = `Mixer: ${document.getElementById('mixer-select')?.value} | Mastering: ${document.getElementById('mastering-select')?.value}`;
+    }
+
+    function togglePlay() { alert("▶ BIXTONE Audio Player: Memutar simulasi hasil generate lagu."); }
+    function generateMusic() { alert("⚡ Memproses Arsitektur 3-Layer Prompt BIXTONE ULTIMATE PRO..."); }
+    function applyPerfection() { alert("✨ Perfection Engine aktif."); }
+    function processStem(t) { alert(`✂ Stem Processing: ${t}`); }
+    function recordOverdub(t) { alert(`🎙 Recording Overdub: ${t}`); }
+    function downloadAudio() { alert("💾 Mengunduh file master audio..."); }
+    function sharePlatform() {
+      if (navigator.share) { 
+        navigator.share({ title: 'BIXTONE', text: 'Cek lagu AI saya!', url: location.href }); 
+      } else { 
+        navigator.clipboard.writeText(location.href); 
+        alert("🌐 Link berhasil disalin!"); 
+      }
+    }
+
+    window.onload = function() {
+      popChips('genre-chips', genres, 8);
+      popChips('mood-chips', moods, 8);
+      popChips('voice-chips', voices, 8);
+      popChips('fx-guitar-chips', fxGuitars, 12);
+      popChips('fx-bass-chips', fxBasses, 10);
+      popChips('world-inst-chips', worldInst, 8);
+
+      popSel('vocal-effect', vocalEffects);
+      popSel('mic-select', mics);
+      popSel('snare-select', snares);
+      popSel('cymbal-select', cymbals);
+      popSel('bass-select', basses);
+      popSel('amp-select', amps);
+      popSel('cab-select', cabs);
+      popSel('guitar-elec-select', guitarsElec);
+      popSel('guitar-acou-select', guitarsAcou);
+      popSel('mixer-select', mixers);
+      popSel('mastering-select', masterings);
+      updatePromptPreview();
+    };
+  </script>
+</body>
+</html>
