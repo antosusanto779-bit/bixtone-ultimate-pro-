@@ -195,5 +195,7 @@ window.onload=function(){
  const c={};for(const k in DATA)c[k]=DATA[k].length;console.log('BIXTONE jumlah pilihan:',c,'Dialek',dialectCount);
 };
 </script>
-</body>
+<script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}
+</script></body>
 </html>
