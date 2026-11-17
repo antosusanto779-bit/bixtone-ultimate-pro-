@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>BIXTONE ULTIMATE PRO - Music AI Generator</title>
+  <style>
+    :root {
+      --navy-deep: #061224;
+      --blue-dark: #0d254c;
+      --blue-light: #1e62b5;
+      --cyan-glow: #38bdf8;
+      --silver-dark: #475569;
+      --silver-light: #cbd5e1;
+      --gold-primary: #f59e0b;
+      --gold-bright: #fde047;
+      --card-bg: rgba(13, 37, 76, 0.78);
+      --border-metallic: rgba(203, 213, 225, 0.28);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+
+    body {
+      background: linear-gradient(135deg, var(--navy-deep) 0%, var(--blue-dark) 40%, #163b70 70%, #1e293b 100%);
+      color: #f8fafc;
+      min-height: 100vh;
+      padding-bottom: 90px;
+    }
+
+    /* HEADER & LOGO */
+    header {
+      background: linear-gradient(180deg, rgba(6,18,36,0.96) 0%, rgba(13,37,76,0.92) 100%);
+      border-bottom: 2px solid var(--gold-primary);
+      padding: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.6);
+    }
+
+    .brand-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .app-title h1 {
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      background: linear-gradient(90deg, var(--silver-light), var(--gold-bright), var(--gold-primary), var(--cyan-glow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .app-title .dev {
+      font-size: 0.72rem;
+      color: var(--silver-light);
+      letter-spacing: 1.2px;
+      font-weight: 600;
+    }
+
+    .slogan {
+      margin-top: 8px;
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--gold-bright);
+      background: linear-gradient(90deg, transparent, rgba(245,158,11,0.18), transparent);
+      padding: 4px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.8px;
+    }
+
+    /* TOP CONTROLS (MODE & LANG) */
+    .top-controls {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .pill-btn {
+      padding: 6px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--silver-light);
+      background: linear-gradient(135deg, var(--silver-dark), var(--blue-dark));
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .pill-btn.active {
+      background: linear-gradient(135deg, var(--gold-primary), #b45309);
+      border-color: var(--gold-bright);
+      color: #061224;
+      box-shadow: 0 0 12px rgba(245,158,11,0.6);
+    }
+
+    /* CONTAINER & CARDS */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 14px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-metallic);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+      backdrop-filter: blur(8px);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      padding-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--gold-bright);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-count {
+      font-size: 0.72rem;
+      background: linear-gradient(90deg, var(--blue-light), var(--silver-dark));
+      padding: 2px 8px;
+      border-radius: 10px;
+      color: #fff;
+      border: 1px solid var(--silver-light);
+    }
+
+    /* FORM ELEMENTS */
+    label { display: block; font-size: 0.8rem; color: var(--silver-light); margin-bottom: 4px; font-weight: 600; }
+    select, input[type="text"], input[type="number"], textarea {
+      width: 100%;
+      padding: 9px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--silver-dark);
+      background: rgba(6, 18, 36, 0.88);
+      color: #f8fafc;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+    select:focus, input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--gold-primary);
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    /* MULTI-SELECT TAG LIST */
+    .search-box {
+      background: rgba(15, 23, 42, 0.95) !important;
+      border-color: var(--blue-light) !important;
+      margin-bottom: 6px !important;
+    }
+
+    .chip-container {
+      max-height: 155px;
+      overflow-y: auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 8px;
+      background: rgba(6, 18, 36, 0.65);
+      border-radius: 8px;
+      border: 1px solid rgba(148,163,184,0.2);
+    }
+
+    .chip {
+      font-size: 0.74rem;
+      padding: 5px 9px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid var(--silver-dark);
+      color: var(--silver-light);
+      cursor: pointer;
+      user-select: none;
+      transition: 0.15s;
+    }
+
+    .chip.selected {
+      background: linear-gradient(135deg, var(--blue-light), var(--gold-primary));
+      color: #061224;
+      font-weight: 800;
+      border-color: var(--gold-bright);
+    }
+
+    .selected-preview {
+      font-size: 0.75rem;
+      color: var(--cyan-glow);
+      margin-top: 5px;
+      min-height: 18px;
+    }
+
+    /* LAYER BADGES */
+    .layer-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .l1 { background: #1d4ed8; color: #fff; }
+    .l2 { background: #b45309; color: #fef08a; }
+    .l3 { background: #475569; color: #f8fafc; border: 1px solid var(--silver-light); }
+
+    /* ACTION BUTTONS */
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      cursor: pointer;
+      color: #061224;
+      background: linear-gradient(90deg, var(--silver-light), var(--gold-bright), var(--gold-primary), var(--cyan-glow));
+      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.5);
+      transition: transform 0.15s;
+    }
+    .btn-primary:active { transform: scale(0.98); }
+
+    .btn-studio {
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--silver-light);
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-light));
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.78rem;
+      cursor: pointer;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold-primary), #92400e);
+      color: #fff;
+      border-color: var(--gold-bright);
+    }
+
+    .pro-only { transition: opacity 0.25s; }
+    .hidden-lite { display: none !important; }
+
+    /* PROMPT OUTPUT */
+    .prompt-box {
+      background: #040b16;
+      border: 1px solid var(--gold-primary);
+      border-radius: 8px;
+      padding: 10px;
+      font-family: monospace;
+      font-size: 0.78rem;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    /* PLAYER & EXPORT */
+    .player-bar {
+      background: linear-gradient(90deg, #061224, #1e293b, #0d254c);
+      border: 1px solid var(--gold-primary);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    audio { width: 100%; margin: 8px 0; height: 38px; }
+
+    .disclaimer-box {
+      font-size: 0.72rem;
+      color: var(--silver-light);
+      background: rgba(15, 23, 42, 0.85);
+      border-left: 3px solid var(--gold-primary);
+      padding: 10px;
+      border-radius: 6px;
+      line-height: 1.45;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand-bar">
+    <div class="logo-wrap">
+      <!-- LOGO BIXTONE CUSTOM SVG (Biru Tua, Biru Muda, Silver Tua/Muda, Kuning Emas) -->
+      <svg width="52" height="52" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#061224"/>
+            <stop offset="50%" stop-color="#1e62b5"/>
+            <stop offset="100%" stop-color="#475569"/>
+          </linearGradient>
+          <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#fde047"/>
+            <stop offset="50%" stop-color="#f59e0b"/>
+            <stop offset="100%" stop-color="#b45309"/>
+          </linearGradient>
+          <linearGradient id="silverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#f8fafc"/>
+            <stop offset="50%" stop-color="#cbd5e1"/>
+            <stop offset="100%" stop-color="#64748b"/>
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="46" fill="url(#bgGrad)" stroke="url(#goldGrad)" stroke-width="4"/>
+        <circle cx="50" cy="50" r="39" fill="none" stroke="url(#silverGrad)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <!-- Soundwave Bars -->
+        <rect x="23" y="42" width="4" height="16" rx="2" fill="#38bdf8"/>
+        <rect x="30" y="30" width="4" height="40" rx="2" fill="url(#silverGrad)"/>
+        <rect x="66" y="30" width="4" height="40" rx="2" fill="url(#silverGrad)"/>
+        <rect x="73" y="42" width="4" height="16" rx="2" fill="#38bdf8"/>
+        <!-- Monogram B + Music Note -->
+        <path d="M39 26 H54 C60 26 63 30 63 35 C63 39 60 42 56 43 C61 44 64 48 64 53 C64 60 59 64 52 64 H39 Z M46 32 V40 H52 C55 40 56 38 56 36 C56 34 55 32 52 32 Z M46 46 V58 H52 C56 58 57 56 57 52 C57 48 55 46 52 46 Z" fill="url(#goldGrad)"/>
+        <circle cx="50" cy="74" r="3.5" fill="#fde047"/>
+      </svg>
+      <div class="app-title">
+        <h1>BIXTONE ULTIMATE PRO</h1>
+        <div class="dev">MUSIC AI GENERATOR BY BIXLABS BOYOLALI INDONESIA</div>
+      </div>
+    </div>
+  </div>
+  <div class="slogan">"WUJUDKAN MIMPIMU DAN CIPTAKAN MUSIK TANPA BATAS"</div>
+
+  <div class="top-controls">
+    <button class="pill-btn active" id="btnModePro" onclick="setAppMode('pro')" data-i18n="modePro">⚡ EXPERT / PRO MODE</button>
+    <button class="pill-btn" id="btnModeLite" onclick="setAppMode('lite')" data-i18n="modeLite">🎛️ LITE / STANDAR MODE</button>
+    <button class="pill-btn active" id="btnLangId" onclick="setLang('id')">🇮🇩 INDONESIA</button>
+    <button class="pill-btn" id="btnLangEn" onclick="setLang('en')">🇬🇧 ENGLISH</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- PENGATURAN DASAR, DURASI, TEMPO & API ACE-STEP -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title" data-i18n="secConfig">⚙️ Konfigurasi Lagu, Durasi, Tempo & Engine ACE-Step</div>
+      <span class="badge-count">Core Engine</span>
+    </div>
+    <div class="grid-2">
+      <div>
+        <label data-i18n="lblGenType">(A) Tipe Generate</label>
+        <select id="genType" onchange="toggleLyricsBox()">
+          <option value="song">Lagu + Vokal (Full Song with Vocals)</option>
+          <option value="instrumental">Instrumental Only (Tanpa Vokal)</option>
+        </select>
+      </div>
+      <div>
+        <label data-i18n="lblDuration">(@) Durasi Lagu / Instrumental (1 - 8 Menit)</label>
+        <select id="songDuration">
+          <option value="1">1 Menit (60 Detik)</option>
+          <option value="2">2 Menit (120 Detik)</option>
+          <option value="3" selected>3 Menit (180 Detik - Standar)</option>
+          <option value="4">4 Menit (240 Detik)</option>
+          <option value="5">5 Menit (300 Detik)</option>
+          <option value="6">6 Menit (360 Detik)</option>
+          <option value="7">7 Menit (420 Detik)</option>
+          <option value="8">8 Menit (480 Detik - Extended)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <label data-i18n="lblTempoMode">(@) Mode Tempo (BPM)</label>
+        <select id="tempoMode" onchange="toggleTempoSlider()">
+          <option value="off">OFF (Auto AI Tempo)</option>
+          <option value="on">ON (Manual 50 - 200 BPM)</option>
+        </select>
+      </div>
+      <div id="tempoSliderBox" style="display:none;">
+        <label>Tempo: <span id="bpmVal" style="color:var(--gold-bright);">120</span> BPM (50 - 200)</label>
+        <input type="range" id="bpmRange" min="50" max="200" value="120" oninput="document.getElementById('bpmVal').innerText=this.value" style="width:100%; margin-top:8px;">
+      </div>
+    </div>
+
+    <!-- PRIORITAS STRUKTUR MELODI (R) -->
+    <div class="pro-only" style="background:rgba(30,98,181,0.22); padding:8px; border-radius:8px; border:1px solid var(--cyan-glow); margin-bottom:8px;">
+      <label style="color:var(--gold-bright); margin:0;">
+        <input type="checkbox" id="melodyPriority" checked> 
+        <span data-i18n="lblMelody">(R) Prioritaskan Struktur Melodi: Intro Melodi Utama → Solo/Bridge Melodi Tengah → Outro Melodi Penutup</span>
+      </label>
+    </div>
+
+    <!-- API ENGINE ACE-STEP OPEN SOURCE -->
+    <details class="pro-only">
+      <summary style="cursor:pointer; color:var(--cyan-glow); font-size:0.8rem; font-weight:700;">🔌 Konfigurasi API Engine / Backend ACE-Step (Free / Open-Source / Custom)</summary>
+      <div style="margin-top:8px;">
+        <label>Preset Endpoint Gratis / Open-Source:</label>
+        <select id="apiPreset" onchange="applyApiPreset()">
+          <option value="hf_acestep">Default: ACE-Step Open-Source (Hugging Face Space Gradio API)</option>
+          <option value="local_colab">Google Colab / Localhost Gradio (http://127.0.0.1:7860/api/predict)</option>
+          <option value="custom">Custom Endpoint URL (Modifikasi Sendiri)</option>
+        </select>
+        <label>Endpoint URL:</label>
+        <input type="text" id="apiEndpoint" value="https://ace-step-ace-step.hf.space/call/text2music">
+        <label>Custom API Token / Header (Opsional jika pakai server pribadi):</label>
+        <input type="text" id="apiToken" placeholder="Kosongkan untuk mode gratis publik...">
+      </div>
+    </details>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- LAYER 1: VOKAL & LIRIK -->
+  <!-- ========================================================= -->
+  <div class="card" id="vocalSection">
+    <span class="layer-tag l1">LAYER 1 • VOCAL ENGINE</span>
+    <div class="card-header">
+      <div class="card-title" data-i18n="secLayer1">🎤 Layer 1: Vokal, Karakter Vokal, Efek Vokal & Lirik</div>
+      <span class="badge-count">Lite & Pro</span>
+    </div>
+
+    <div id="lyricsWrapper">
+      <label data-i18n="lblLyrics">(A) Lirik Manual / Isi Sendiri (Kosongkan jika ingin AI membuat lirik otomatis):</label>
+      <textarea id="manualLyrics" rows="4" placeholder="[Intro Melody]&#10;[Verse 1]&#10;Tulis lirik lagu Anda di sini...&#10;[Chorus]&#10;...&#10;[Middle Melodic Solo]&#10;[Outro Melody]"></textarea>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <label data-i18n="lblVocalType">(B) Pilihan Vokal (Pilih 1)</label>
+        <select id="vocalGender" onchange="toggleDuetBox()">
+          <option value="male">Male (Vokal Pria)</option>
+          <option value="female">Female (Vokal Wanita)</option>
+          <option value="duet">Duet (2 Penyanyi)</option>
+        </select>
+      </div>
+      <div id="duetTypeBox" style="display:none;">
+        <label data-i18n="lblDuetType">(B) Formasi Duet (Pilih 1)</label>
+        <select id="duetType">
+          <option value="male-male">Male - Male (Pria & Pria)</option>
+          <option value="female-female">Female - Female (Wanita & Wanita)</option>
+          <option value="male-female">Male - Female (Pria & Wanita)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- (C) 50 KARAKTER VOKAL (MAX 8) -->
+    <label>(C) Karakter Vokal — 50 Pilihan (<span id="count_vocalChar">0</span>/8 Max)</label>
+    <input type="text" class="search-box" placeholder="Cari karakter vokal..." oninput="filterChips('vocalChar', this.value)">
+    <div class="chip-container" id="list_vocalChar"></div>
+    <div class="selected-preview" id="prev_vocalChar"></div>
+
+    <!-- (E) 30 EFEK VOKAL (MAX 1) -->
+    <div style="margin-top:10px;">
+      <label>(E) Efek Vokal Studio — 30 Brand Referensi (Pilih 1)</label>
+      <select id="vocalEffect"></select>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- LAYER 2: GENRE, MOOD & INSTRUMEN STUDIO -->
+  <!-- ========================================================= -->
+  <div class="card">
+    <span class="layer-tag l2">LAYER 2 • MOOD, GENRE & INSTRUMENTS</span>
+    <div class="card-header">
+      <div class="card-title" data-i18n="secLayer2">🎸 Layer 2: Mood, Genre & Perangkat Instrumen</div>
+      <span class="badge-count">1.300+ Gear</span>
+    </div>
+
+    <!-- (D) 50 MOOD (MAX 8) - TERSEDIA DI LITE & PRO -->
+    <label>(D) Mood / Suasana Lagu — 50 Pilihan (<span id="count_mood">0</span>/8 Max)</label>
+    <input type="text" class="search-box" placeholder="Cari mood lagu..." oninput="filterChips('mood', this.value)">
+    <div class="chip-container" id="list_mood"></div>
+    <div class="selected-preview" id="prev_mood"></div>
+
+    <!-- (F) 150 GENRE MUSIK (MAX 8) - TERSEDIA DI LITE & PRO -->
+    <div style="margin-top:10px;">
+      <label>(F) Genre Musik — 150 Pilihan (<span id="count_genre">0</span>/8 Max)</label>
+      <input type="text" class="search-box" placeholder="Cari genre (Pop, Rock, Dangdut Koplo, Metal, Jazz, dll)..." oninput="filterChips('genre', this.value)">
+      <div class="chip-container" id="list_genre"></div>
+      <div class="selected-preview" id="prev_genre"></div>
+    </div>
+
+    <!-- PRO ONLY HARDWARE & INSTRUMENTS -->
+    <div class="pro-only" id="proInstrumentsBlock" style="margin-top:14px; border-top:1px dashed var(--gold-primary); padding-top:12px;">
+      
+      <!-- (G) 30 MICROPHONE (PILIH 1) -->
+      <label>(G) Microphone — 30 Real Brand (Pilih 1 • Style/Inspired By)</label>
+      <select id="micSelect"></select>
+
+      <!-- (H) 100 AMP + SERIES (MAX 4 + ROUTING SERIES/PARALLEL) -->
+      <div style="margin-top:10px;">
+        <div class="grid-2">
+          <div>
+            <label>(H) Amplifier + Series — 100 Real Brand (<span id="count_amp">0</span>/4 Max)</label>
+          </div>
+          <div>
+            <select id="ampRouting">
+              <option value="Series Chain (Berurutan)">Routing Amp: Series (Seri / Berurutan)</option>
+              <option value="Parallel Dual-Blend (Paralel)">Routing Amp: Parallel (Paralel / Stereo Blend)</option>
+            </select>
+          </div>
+        </div>
+        <input type="text" class="search-box" placeholder="Cari brand/series Amp (Marshall, Fender, Mesa, Kemper, dll)..." oninput="filterChips('amp', this.value)">
+        <div class="chip-container" id="list_amp"></div>
+        <div class="selected-preview" id="prev_amp"></div>
+      </div>
+
+      <!-- (I) GITAR 1 & GITAR 2 (TERPISAH 50 ELEKTRIK & 30 AKUSTIK) -->
+      <div style="margin-top:12px; background:rgba(6,18,36,0.5); padding:10px; border-radius:10px; border:1px solid var(--silver-dark);">
+        <label style="color:var(--gold-bright);">(I) Konfigurasi 2 Gitar (Terpisah: 50 Gitar Elektrik & 30 Gitar Akustik)</label>
+        <div class="grid-2">
+          <div>
+            <label>Gitar 1 — Kategori:</label>
+            <select id="g1Cat" onchange="populateGuitarDropdown('g1')">
+              <option value="electric">Gitar Elektrik (50 Brand)</option>
+              <option value="acoustic">Gitar Akustik (30 Brand)</option>
+              <option value="none">Tidak Dipakai</option>
+            </select>
+            <label>Gitar 1 — Pilih Brand (Style/Inspired By):</label>
+            <select id="g1Model"></select>
+          </div>
+          <div>
+            <label>Gitar 2 — Kategori:</label>
+            <select id="g2Cat" onchange="populateGuitarDropdown('g2')">
+              <option value="acoustic">Gitar Akustik (30 Brand)</option>
+              <option value="electric">Gitar Elektrik (50 Brand)</option>
+              <option value="none">Tidak Dipakai</option>
+            </select>
+            <label>Gitar 2 — Pilih Brand (Style/Inspired By):</label>
+            <select id="g2Model"></select>
+          </div>
+        </div>
+      </div>
+
+      <!-- (J) 500 BASS BRAND (PILIH 1 DENGAN FILTER PENCARIAN) -->
+      <div style="margin-top:10px;">
+        <label>(J) Bass Guitar — 500 Real Brand & Seri (Pilih 1 • Style/Inspired By)</label>
+        <input type="text" class="search-box" placeholder="Ketik untuk mencari dari 500 merek Bass (Fender, Ibanez, Music Man, Dingwall, dll)..." oninput="filterSelect('bassSelect', catalogData.bass, this.value)">
+        <select id="bassSelect"></select>
+      </div>
+
+      <!-- (K) 50 SNARE DRUM & (L) 30 CYMBALS -->
+      <div class="grid-2" style="margin-top:8px;">
+        <div>
+          <label>(K) Snare Drum — 50 Real Brand (Pilih 1)</label>
+          <select id="snareSelect"></select>
+        </div>
+        <div>
+          <label>(L) Cymbals — 30 Real Brand (Pilih 1)</label>
+          <select id="cymbalSelect"></select>
+        </div>
+      </div>
+
+      <!-- (O) 200 EFEK GITAR (MAX 12) -->
+      <div style="margin-top:10px;">
+        <label>(O) Efek Gitar / Stompbox — 200 Real Brand (<span id="count_guitarFx">0</span>/12 Max)</label>
+        <input type="text" class="search-box" placeholder="Cari dari 200 efek gitar (Boss, Strymon, Tube Screamer, Big Muff, dll)..." oninput="filterChips('guitarFx', this.value)">
+        <div class="chip-container" id="list_guitarFx"></div>
+        <div class="selected-preview" id="prev_guitarFx"></div>
+      </div>
+
+      <!-- (P) 100 EFEK BASS (MAX 10) -->
+      <div style="margin-top:10px;">
+        <label>(P) Efek Bass — 100 Real Brand (<span id="count_bassFx">0</span>/10 Max)</label>
+        <input type="text" class="search-box" placeholder="Cari dari 100 efek bass (Darkglass, SansAmp, MXR, Aguilar, dll)..." oninput="filterChips('bassFx', this.value)">
+        <div class="chip-container" id="list_bassFx"></div>
+        <div class="selected-preview" id="prev_bassFx"></div>
+      </div>
+
+      <!-- (Q) 150 ALAT MUSIK LAIN / ALAT MUSIK DUNIA (MAX 8) -->
+      <div style="margin-top:10px;">
+        <label>(Q) Alat Musik Lain / Alat Musik Dunia — 150 Pilihan (<span id="count_worldInst">0</span>/8 Max)</label>
+        <input type="text" class="search-box" placeholder="Cari dari 150 alat musik dunia (Gamelan, Kendang, Suling, Sitar, Erhu, Synth, dll)..." oninput="filterChips('worldInst', this.value)">
+        <div class="chip-container" id="list_worldInst"></div>
+        <div class="selected-preview" id="prev_worldInst"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- LAYER 3: MIXER & MASTERING STUDIO -->
+  <!-- ========================================================= -->
+  <div class="card pro-only" id="layer3Card">
+    <span class="layer-tag l3">LAYER 3 • STUDIO MIXING & MASTERING</span>
+    <div class="card-header">
+      <div class="card-title" data-i18n="secLayer3">🎛️ Layer 3: Konsol Mixer & Perangkat Mastering</div>
+      <span class="badge-count">Pro Studio</span>
+    </div>
+    <div class="grid-2">
+      <div>
+        <label>(M) Studio Mixer Console — 30 Real Brand (Pilih 1)</label>
+        <select id="mixerSelect"></select>
+      </div>
+      <div>
+        <label>(N) Mastering Hardware/Suite — 30 Real Brand (Pilih 1)</label>
+        <select id="masteringSelect"></select>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- (S) PREVIEW 3-LAYER PROMPT & TOMBOL GENERATE -->
+  <!-- ========================================================= -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">🧠 (S) 3-Layer AI Prompt Architecture Preview</div>
+      <button class="btn-studio" onclick="buildThreeLayerPrompt()">🔄 Refresh Prompt</button>
+    </div>
+    <div class="prompt-box" id="promptOutput">Memuat arsitektur 3-Layer Prompt BIXTONE...</div>
+    <div style="margin-top:12px;">
+      <button class="btn-primary" id="btnGenerate" onclick="generateMusicAI()">🚀 GENERATE MUSIK SEKARANG (BIXTONE AI)</button>
+    </div>
+    <div id="statusLog" style="margin-top:8px; font-size:0.8rem; color:var(--gold-bright); text-align:center;"></div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- (T, U, V, W, X, Y) STUDIO WORKSTATION, PLAYER & EXPORT -->
+  <!-- ========================================================= -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">🎧 (T - Y) Studio Workstation, Player & Multi-Format Export</div>
+      <span class="badge-count">Post-Production</span>
+    </div>
+
+    <!-- (Y) MUSIC PLAYER -->
+    <div class="player-bar">
+      <div style="font-size:0.82rem; font-weight:700; color:var(--cyan-glow);" id="trackTitle">🎵 BIXTONE Master Output — Siap Diputar</div>
+      <audio id="audioPlayer" controls></audio>
+    </div>
+
+    <!-- (T) CORRECTION / PERFECTION -->
+    <div style="margin-top:12px;" class="grid-2">
+      <button class="btn-studio btn-gold" onclick="runCorrectionPerfection()">✨ (T) Correction / Perfection (Sempurnakan Audio)</button>
+      <button class="btn-studio" onclick="shareTrack()">📲 (X) Share ke WhatsApp / Semua Platform</button>
+    </div>
+
+    <!-- (U) REMOVE + GENERATE STEM -->
+    <div style="margin-top:12px; background:rgba(6,18,36,0.55); padding:10px; border-radius:8px;">
+      <label style="color:var(--gold-bright);">(U) Remove + Generate (Hapus & Isi Ulang Bagian Lagu)</label>
+      <div class="grid-2">
+        <select id="removeStemTarget">
+          <option value="vocal">Hapus & Generate Ulang: VOKAL (Vocal Stem)</option>
+          <option value="guitar">Hapus & Generate Ulang: GITAR (Guitar Stem)</option>
+          <option value="bass">Hapus & Generate Ulang: BASS (Bass Stem)</option>
+          <option value="drum">Hapus & Generate Ulang: DRUM (Drum Stem)</option>
+        </select>
+        <button class="btn-studio" onclick="runRemoveAndGenerate()">✂️ Proses Remove + Generate</button>
+      </div>
+    </div>
+
+    <!-- (V) REMAKE + RECORD + GENERATE -->
+    <div style="margin-top:10px; background:rgba(6,18,36,0.55); padding:10px; border-radius:8px;">
+      <label style="color:var(--gold-bright);">(V) Remake + Record + Generate (Rekam Langsung untuk Mengisi Bagian)</label>
+      <div class="grid-2">
+        <select id="recordTarget">
+          <option value="vocal">Rekam & Isi Bagian: VOKAL (Vocal Take)</option>
+          <option value="guitar">Rekam & Isi Bagian: GITAR (Guitar Take)</option>
+          <option value="bass">Rekam & Isi Bagian: BASS (Bass Take)</option>
+          <option value="drum">Rekam & Isi Bagian: DRUM / BEATBOX (Drum Take)</option>
+        </select>
+        <div style="display:flex; gap:6px;">
+          <button class="btn-studio btn-gold" id="btnRecToggle" onclick="toggleMicRecording()" style="flex:1;">🎙️ Mulai Rekam</button>
+          <button class="btn-studio" onclick="applyRecordedRemake()" style="flex:1;">⚡ Remake + Generate</button>
+        </div>
+      </div>
+      <div id="recStatus" style="font-size:0.74rem; color:var(--silver-light); margin-top:4px;">Status Mic: Siap merekam dari mikrofon perangkat.</div>
+    </div>
+
+    <!-- (W) DOWNLOAD SEMUA FORMAT MUSIK -->
+    <div style="margin-top:10px; background:rgba(6,18,36,0.55); padding:10px; border-radius:8px;">
+      <label style="color:var(--gold-bright);">(W) Download Semua Format Musik</label>
+      <div class="grid-2">
+        <select id="downloadFormat">
+          <option value="wav">WAV (Lossless Studio 24-bit)</option>
+          <option value="mp3">MP3 (High Quality 320kbps)</option>
+          <option value="flac">FLAC (Lossless Compressed)</option>
+          <option value="ogg">OGG Vorbis (Web / Game Audio)</option>
+          <option value="aac">AAC / M4A (Mobile High Efficiency)</option>
+        </select>
+        <button class="btn-studio btn-gold" onclick="downloadAudioFormat()">💾 Download File Musik</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- (Z) DISCLAIMER BRAND / MEREK -->
+  <div class="disclaimer-box">
+    <strong>⚖️ (Z) DISCLAIMER HAK CIPTA & MEREK DAGANG (TRADEMARK NOTICE):</strong><br>
+    Seluruh nama merek, model mikrofon, amplifier, gitar elektrik/akustik, bass, snare drum, cymbals, efek gitar/bass, konsol mixer, maupun perangkat mastering yang tercantum di dalam aplikasi <strong>BIXTONE ULTIMATE PRO (Bixlabs Boyolali Indonesia)</strong> berfungsi murni sebagai <em>Style / Acoustic Reference / Inspired By</em> (referensi karakter suara). Aplikasi ini bersifat independen, tidak berafiliasi dengan, tidak disponsori oleh, dan tidak mengklaim kepemilikan atas merek dagang pihak ketiga mana pun.
+  </div>
+
+</div>
+
+<script src="catalog.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
